@@ -4,6 +4,8 @@
  */
 package br.com.autowashmanager.telas;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author h24he
@@ -17,6 +19,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
      */
     public TelaPrincipal() {
         initComponents();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     /**
@@ -28,20 +31,55 @@ public class TelaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem1 = new javax.swing.JMenuItem();
+        Menu = new javax.swing.JMenuBar();
+        MenuCadastro = new javax.swing.JMenu();
+        MenuCadastroFuncionario = new javax.swing.JMenuItem();
+        MenuEmissao = new javax.swing.JMenu();
+        MenuGestao = new javax.swing.JMenu();
+        MenuRelatorios = new javax.swing.JMenu();
+
+        jMenuItem1.setText("jMenuItem1");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("AutoWash Manager - Menu");
+
+        MenuCadastro.setText("Cadastro");
+        MenuCadastro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        MenuCadastroFuncionario.setText("Funcionário");
+        MenuCadastroFuncionario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        MenuCadastro.add(MenuCadastroFuncionario);
+
+        Menu.add(MenuCadastro);
+
+        MenuEmissao.setText("Emissão");
+        MenuEmissao.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Menu.add(MenuEmissao);
+
+        MenuGestao.setText("Gestão");
+        MenuGestao.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Menu.add(MenuGestao);
+
+        MenuRelatorios.setText("Relatórios");
+        MenuRelatorios.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Menu.add(MenuRelatorios);
+
+        setJMenuBar(Menu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 1000, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 577, Short.MAX_VALUE)
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     /**
@@ -70,5 +108,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuBar Menu;
+    private javax.swing.JMenu MenuCadastro;
+    private javax.swing.JMenuItem MenuCadastroFuncionario;
+    private javax.swing.JMenu MenuEmissao;
+    private javax.swing.JMenu MenuGestao;
+    private javax.swing.JMenu MenuRelatorios;
+    private javax.swing.JMenuItem jMenuItem1;
     // End of variables declaration//GEN-END:variables
 }

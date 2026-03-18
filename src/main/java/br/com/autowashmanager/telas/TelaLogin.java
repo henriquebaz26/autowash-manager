@@ -5,7 +5,6 @@
 package br.com.autowashmanager.telas;
 
 import br.com.autowashmanager.dal.ModuloConexao;
-import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
