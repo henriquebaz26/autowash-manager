@@ -8,7 +8,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>25</maven.compiler.release>
-        <exec.mainClass>br.com.autowashmanager.test.AutoWashManager</exec.mainClass>
+        <exec.mainClass>br.com.autowashmanager.telas.TelaLogin</exec.mainClass>
     </properties>
     <dependencies>
         <dependency>
