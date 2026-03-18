@@ -11,7 +11,7 @@ import javax.swing.JFrame;
  * @author h24he
  */
 public class TelaPrincipal extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaPrincipal.class.getName());
 
     /**
@@ -20,6 +20,33 @@ public class TelaPrincipal extends javax.swing.JFrame {
     public TelaPrincipal() {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        confirmarSaida();
+    }
+
+    private void confirmarSaida() {
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+
+                Object[] opcoes = {"Sim", "Não"};
+
+                int resposta = javax.swing.JOptionPane.showOptionDialog(
+                        null,
+                        "Deseja realmente sair do sistema?",
+                        "Confirmação de saída",
+                        javax.swing.JOptionPane.YES_NO_OPTION,
+                        javax.swing.JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        opcoes,
+                        opcoes[1] // botão padrão (Não)
+                );
+
+                if (resposta == 0) {
+                    System.exit(0);
+                }
+            }
+        });
     }
 
     /**
@@ -41,7 +68,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jMenuItem1.setText("jMenuItem1");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("AutoWash Manager - Menu");
 
         MenuCadastro.setText("Cadastro");
