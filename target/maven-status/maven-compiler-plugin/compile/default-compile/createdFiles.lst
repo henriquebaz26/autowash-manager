@@ -1,4 +1,8 @@
+br\com\autowashmanager\telas\TelaCadastroFuncionario$3.class
 br\com\autowashmanager\telas\TelaPrincipal.class
-br\com\autowashmanager\telas\TelaPrincipal$1.class
-br\com\autowashmanager\AutoWashManager\AutoWashManager.class
+br\com\autowashmanager\telas\TelaCadastroFuncionario.class
 br\com\autowashmanager\telas\TelaLogin.class
+br\com\autowashmanager\util\DbUtils.class
+br\com\autowashmanager\telas\TelaCadastroFuncionario$1.class
+br\com\autowashmanager\telas\TelaPrincipal$1.class
+br\com\autowashmanager\telas\TelaCadastroFuncionario$2.class

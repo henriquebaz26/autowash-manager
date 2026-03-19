@@ -76,6 +76,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         MenuCadastroFuncionario.setText("Funcionário");
         MenuCadastroFuncionario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        MenuCadastroFuncionario.addActionListener(this::MenuCadastroFuncionarioActionPerformed);
         MenuCadastro.add(MenuCadastroFuncionario);
 
         Menu.add(MenuCadastro);
@@ -108,6 +109,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void MenuCadastroFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuCadastroFuncionarioActionPerformed
+        // Chamando a Tela de Cadastro de Funcionário
+        
+        TelaCadastroFuncionario telaFuncionario = new TelaCadastroFuncionario();
+        telaFuncionario.setVisible(true);
+    }//GEN-LAST:event_MenuCadastroFuncionarioActionPerformed
 
     /**
      * @param args the command line arguments
