@@ -62,6 +62,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         Menu = new javax.swing.JMenuBar();
         MenuCadastro = new javax.swing.JMenu();
         MenuCadastroFuncionario = new javax.swing.JMenuItem();
+        MenuCadastroCliente = new javax.swing.JMenuItem();
         MenuEmissao = new javax.swing.JMenu();
         MenuGestao = new javax.swing.JMenu();
         MenuRelatorios = new javax.swing.JMenu();
@@ -78,6 +79,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         MenuCadastroFuncionario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         MenuCadastroFuncionario.addActionListener(this::MenuCadastroFuncionarioActionPerformed);
         MenuCadastro.add(MenuCadastroFuncionario);
+
+        MenuCadastroCliente.setText("Cliente");
+        MenuCadastroCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        MenuCadastroCliente.addActionListener(this::MenuCadastroClienteActionPerformed);
+        MenuCadastro.add(MenuCadastroCliente);
 
         Menu.add(MenuCadastro);
 
@@ -117,6 +123,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
         telaFuncionario.setVisible(true);
     }//GEN-LAST:event_MenuCadastroFuncionarioActionPerformed
 
+    private void MenuCadastroClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuCadastroClienteActionPerformed
+        // Chamanda a tela de cadastro de cliente
+        
+        TelaCadastroCliente telaCliente = new TelaCadastroCliente();
+        telaCliente.setVisible(true);
+    }//GEN-LAST:event_MenuCadastroClienteActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -145,6 +158,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar Menu;
     private javax.swing.JMenu MenuCadastro;
+    private javax.swing.JMenuItem MenuCadastroCliente;
     private javax.swing.JMenuItem MenuCadastroFuncionario;
     private javax.swing.JMenu MenuEmissao;
     private javax.swing.JMenu MenuGestao;

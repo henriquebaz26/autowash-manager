@@ -245,7 +245,6 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
             }
         ));
         tblFuncionarios.setFocusable(false);
-        tblFuncionarios.setRowSelectionAllowed(true);
         tblFuncionarios.getTableHeader().setReorderingAllowed(false);
         tblFuncionarios.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
