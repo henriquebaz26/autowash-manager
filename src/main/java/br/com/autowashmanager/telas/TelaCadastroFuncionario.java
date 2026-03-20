@@ -84,7 +84,15 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
     }
     
     // método para setar os campos do formulário com o conteúdo da tabela
-    public void setar_campos() {
+    public void setar_campos() { 
+        txtFuncionarioNome.setText(null);
+        txtFuncionarioTelefone.setText(null);
+        cboFuncionarioAtividade.setSelectedIndex(0);
+        cboFuncionarioStatus.setSelectedIndex(0);
+        txtFuncionarioLogin.setText(null);
+        txtFuncionarioSenha.setText(null);
+        txtFuncionarioPesquisar.setText(null);
+        
         int setar = tblFuncionarios.getSelectedRow();
 
         txtFuncionarioId.setText(tblFuncionarios.getModel().getValueAt(setar, 0).toString());
