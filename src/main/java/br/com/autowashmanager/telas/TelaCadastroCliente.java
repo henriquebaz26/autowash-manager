@@ -5,6 +5,8 @@
 package br.com.autowashmanager.telas;
 
 import br.com.autowashmanager.dal.ModuloConexao;
+import br.com.autowashmanager.model.Endereco;
+import br.com.autowashmanager.service.BuscaCEP;
 import br.com.autowashmanager.util.DbUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -78,7 +80,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-    
+
     // método para setar os campos do formulário com o conteúdo da tabela
     public void setar_campos() {
         txtClienteId.setText(null);
@@ -91,7 +93,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         txtClienteBairro.setText(null);
         txtClienteCidade.setText(null);
         txtClienteEstado.setText(null);
-        
+
         int setar = tblClientes.getSelectedRow();
 
         txtClienteId.setText(tblClientes.getModel().getValueAt(setar, 0).toString());
@@ -104,10 +106,32 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         txtClienteBairro.setText(tblClientes.getModel().getValueAt(setar, 7).toString());
         txtClienteCidade.setText(tblClientes.getModel().getValueAt(setar, 8).toString());
         txtClienteEstado.setText(tblClientes.getModel().getValueAt(setar, 9).toString());
-      
+
         // a linha abaixo desabilita os botões de adicionar e habilita o de atualizar
 //        btnFuncionarioCreate.setEnabled(false);
 //        btnFuncionarioUpdate.setEnabled(true);
+    }
+
+    private void buscarCep() {
+        try {
+            String cep = txtClienteCEP.getText();
+
+            Endereco endereco = BuscaCEP.buscar(cep);
+
+            if (endereco != null) {
+                txtClienteRua.setText(endereco.getRua());
+                txtClienteBairro.setText(endereco.getBairro());
+                txtClienteCidade.setText(endereco.getCidade());
+                txtClienteEstado.setText(endereco.getEstado());
+            } else {
+                JOptionPane.showMessageDialog(null, "CEP não encontrado.");
+            }
+
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao buscar CEP.");
+        }
     }
 
     /**
@@ -235,6 +259,11 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         txtClienteCEP.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtClienteCEP.setAutoscrolls(false);
         txtClienteCEP.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txtClienteCEP.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtClienteCEPFocusLost(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel8.setText("* Rua");
@@ -264,6 +293,11 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         lblBuscarCEP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/address.png"))); // NOI18N
         lblBuscarCEP.setText("jLabel13");
         lblBuscarCEP.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblBuscarCEP.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblBuscarCEPMouseClicked(evt);
+            }
+        });
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel13.setText("* Email");
@@ -407,9 +441,37 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
 
     private void tblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesMouseClicked
         // Chamando o método de setar campos
-        
+
         setar_campos();
     }//GEN-LAST:event_tblClientesMouseClicked
+
+    private void txtClienteCEPFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtClienteCEPFocusLost
+        // Chamando o método de buscaCEP
+
+        if (txtClienteCEP.getText().length() != 8) {
+            JOptionPane.showMessageDialog(null,
+                    "CEP inválido. Por favor, informe um CEP com 8 dígitos numéricos.",
+                    "Erro de validação",
+                    JOptionPane.WARNING_MESSAGE
+            );
+        } else {
+            buscarCep();
+        }
+    }//GEN-LAST:event_txtClienteCEPFocusLost
+
+    private void lblBuscarCEPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBuscarCEPMouseClicked
+        // Chamando o método de buscaCEP
+
+        if (txtClienteCEP.getText().length() != 8) {
+            JOptionPane.showMessageDialog(null,
+                    "CEP inválido. Por favor, informe um CEP com 8 dígitos numéricos.",
+                    "Erro de validação",
+                    JOptionPane.WARNING_MESSAGE
+            );
+        } else {
+            buscarCep();
+        }
+    }//GEN-LAST:event_lblBuscarCEPMouseClicked
 
     /**
      * @param args the command line arguments

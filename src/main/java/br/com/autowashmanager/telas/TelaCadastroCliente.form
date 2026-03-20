@@ -350,6 +350,9 @@
           <Color id="Cursor de Texto"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtClienteCEPFocusLost"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel8">
       <Properties>
@@ -436,6 +439,9 @@
           <Color id="Cursor em Forma de M&#xe3;o"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblBuscarCEPMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel13">
       <Properties>
