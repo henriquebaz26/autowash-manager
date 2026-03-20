@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -31,6 +32,58 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     public TelaCadastroCliente() {
         initComponents();
         conexao = ModuloConexao.conector();
+    }
+    
+    // metodo para adicionar clientes
+    private void adicionar() {
+        String sql = "insert into customer (name, phone, email, cep, street, number, neighborhood, city, state) values(?, ?, ?, ?, ?, ?, ?, ?, ?)"; 
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, txtClienteNome.getText());
+            pst.setString(2, txtClienteTelefone.getText());
+            pst.setString(3, txtClienteEmail.getText());
+            pst.setString(4, txtClienteCEP.getText());
+            pst.setString(5, txtClienteRua.getText());
+            pst.setString(6, txtClienteNumero.getText());
+            pst.setString(7, txtClienteBairro.getText());
+            pst.setString(8, txtClienteCidade.getText());
+            pst.setString(9, txtClienteEstado.getText());           
+
+            // validação dos campos obrigatórios            
+            if ((txtClienteNome.getText().isEmpty()) || (txtClienteTelefone.getText().isEmpty()) || (txtClienteCEP.getText().isEmpty()) || (txtClienteRua.getText().isEmpty()) || (txtClienteNumero.getText().isEmpty()) || (txtClienteBairro.getText().isEmpty()) || (txtClienteCidade.getText().isEmpty()) || (txtClienteEstado.getText().isEmpty())) {
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios");
+            } else {
+                // a linha abaixo atualiza a tabela clientes com os dados do formulário
+                // a estrutura abaixo é usada para confirmar a inserção dos dados na tabela
+                int adicionado = pst.executeUpdate();
+                // a linha abaixo serve de apoio ao entendimento da lógica
+                System.out.println(adicionado);
+                if (adicionado > 0) {
+                    JOptionPane.showMessageDialog(null, "Cliente adicionado com sucesso");
+                    limpar();
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+
+        }
+    }
+    
+    // metodo para limpar os campos do formulário
+    private void limpar() {
+        txtClienteId.setText(null);
+        txtClienteNome.setText(null);
+        txtClienteTelefone.setText(null);
+        txtClienteEmail.setText(null);
+        txtClienteCEP.setText(null);
+        txtClienteRua.setText(null);
+        txtClienteNumero.setText(null);
+        txtClienteBairro.setText(null);
+        txtClienteCidade.setText(null);
+        txtClienteEstado.setText(null);
+        ((DefaultTableModel) tblClientes.getModel()).setRowCount(0);
+        
+        btnClienteUpdate.setEnabled(false);
     }
 
     // método para pesquisar cliente pelo id, nome ou telefone com filtro
@@ -108,8 +161,8 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         txtClienteEstado.setText(tblClientes.getModel().getValueAt(setar, 9).toString());
 
         // a linha abaixo desabilita os botões de adicionar e habilita o de atualizar
-//        btnFuncionarioCreate.setEnabled(false);
-//        btnFuncionarioUpdate.setEnabled(true);
+        btnClienteCreate.setEnabled(false);
+        btnClienteUpdate.setEnabled(true);
     }
 
     private void buscarCep() {
@@ -131,6 +184,74 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e.getMessage());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao buscar CEP.");
+        }
+    }
+    
+    // método para alterar os dados do cliente
+    private void alterar() {
+        String sql = "update customer set name=?, phone=?, email=?, cep=?, street=?, number=?, neighborhood=?, city=?, state=? where id=?";
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, txtClienteNome.getText());
+            pst.setString(2, txtClienteTelefone.getText());
+            pst.setString(3, txtClienteEmail.getText());
+            pst.setString(4, txtClienteCEP.getText());
+            pst.setString(5, txtClienteRua.getText());
+            pst.setString(6, txtClienteNumero.getText());
+            pst.setString(7, txtClienteBairro.getText());
+            pst.setString(8, txtClienteCidade.getText());
+            pst.setString(9, txtClienteEstado.getText()); 
+            
+            pst.setString(10, txtClienteId.getText());
+
+            if ((txtClienteNome.getText().isEmpty()) || (txtClienteTelefone.getText().isEmpty()) || (txtClienteCEP.getText().isEmpty()) || (txtClienteRua.getText().isEmpty()) || (txtClienteNumero.getText().isEmpty()) || (txtClienteBairro.getText().isEmpty()) || (txtClienteCidade.getText().isEmpty()) || (txtClienteEstado.getText().isEmpty())) {
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios");
+            } else {
+                // a linha abaixo atualiza a tabela clientes com os dados do formulário
+                // a estrutura abaixo é usada para confirmar a alteração dos dados na tabela
+                int alterado = pst.executeUpdate();
+                // a linha abaixo serve de apoio ao entendimento da lógica
+                System.out.println(alterado);
+                if (alterado > 0) {
+                    JOptionPane.showMessageDialog(null, "Dados do cliente alterados com sucesso");
+                    limpar();
+
+                    btnClienteCreate.setEnabled(true);
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    
+    // método responsável pela remoção de cliente
+    private void remover() {
+        // VALIDAÇÃO: verificar se algum cliente foi selecionado
+    if (txtClienteId.getText().isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Selecione um cliente para excluir");
+        return;
+    }
+        
+        //a estrutura abaixo confirma a remoção do cliente
+        int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja remover este cliente?", "ATENÇÃO", JOptionPane.YES_NO_OPTION);
+
+        if (confirma == JOptionPane.YES_OPTION) {
+            String sql = "delete from customer where id=?";
+            try {
+                pst = conexao.prepareStatement(sql);
+                pst.setString(1, txtClienteId.getText());
+                int apagado = pst.executeUpdate();
+
+                if (apagado > 0) {
+                    JOptionPane.showMessageDialog(null, "Cliente removido com sucesso");
+                    limpar();
+
+                    btnClienteCreate.setEnabled(true);
+                    btnClienteUpdate.setEnabled(false);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
         }
     }
 
@@ -174,6 +295,9 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         lblBuscarCEP = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         txtClienteEmail = new javax.swing.JTextField();
+        btnClienteCreate = new javax.swing.JButton();
+        btnClienteUpdate = new javax.swing.JButton();
+        btnClienteDelete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("AutoWash Manager - Cadastro de Clientes");
@@ -292,6 +416,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
 
         lblBuscarCEP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/address.png"))); // NOI18N
         lblBuscarCEP.setText("jLabel13");
+        lblBuscarCEP.setToolTipText("Buscar CEP");
         lblBuscarCEP.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblBuscarCEP.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -300,9 +425,25 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         });
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel13.setText("* Email");
+        jLabel13.setText("Email");
 
         txtClienteEmail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        btnClienteCreate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/create.png"))); // NOI18N
+        btnClienteCreate.setToolTipText("Adicionar");
+        btnClienteCreate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnClienteCreate.addActionListener(this::btnClienteCreateActionPerformed);
+
+        btnClienteUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/update.png"))); // NOI18N
+        btnClienteUpdate.setToolTipText("Atualizar");
+        btnClienteUpdate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnClienteUpdate.setEnabled(false);
+        btnClienteUpdate.addActionListener(this::btnClienteUpdateActionPerformed);
+
+        btnClienteDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/delete.png"))); // NOI18N
+        btnClienteDelete.setToolTipText("Deletar");
+        btnClienteDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnClienteDelete.addActionListener(this::btnClienteDeleteActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -374,6 +515,14 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtClienteEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnClienteCreate)
+                .addGap(205, 205, 205)
+                .addComponent(btnClienteUpdate)
+                .addGap(195, 195, 195)
+                .addComponent(btnClienteDelete)
+                .addGap(260, 260, 260))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -420,8 +569,15 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
                     .addComponent(jLabel12)
                     .addComponent(txtClienteEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
-                .addContainerGap(156, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnClienteCreate, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnClienteUpdate)
+                    .addComponent(btnClienteDelete))
+                .addContainerGap())
         );
+
+        lblBuscarCEP.getAccessibleContext().setAccessibleName("BuscarCEP");
 
         getAccessibleContext().setAccessibleDescription("");
 
@@ -473,6 +629,24 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_lblBuscarCEPMouseClicked
 
+    private void btnClienteCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClienteCreateActionPerformed
+        // Chamando o metodo de adicionar cliente
+
+        adicionar();
+    }//GEN-LAST:event_btnClienteCreateActionPerformed
+
+    private void btnClienteUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClienteUpdateActionPerformed
+        // Chamando o método de alterar informações de um cliente
+
+        alterar();
+    }//GEN-LAST:event_btnClienteUpdateActionPerformed
+
+    private void btnClienteDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClienteDeleteActionPerformed
+        // Chamando o método de exclusão de cliente
+
+        remover();
+    }//GEN-LAST:event_btnClienteDeleteActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -499,6 +673,9 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnClienteCreate;
+    private javax.swing.JButton btnClienteDelete;
+    private javax.swing.JButton btnClienteUpdate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

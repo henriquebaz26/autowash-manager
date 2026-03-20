@@ -108,7 +108,7 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
         btnFuncionarioUpdate.setEnabled(true);
     }
     
-        // criando o método para alterar os dados do funcionário
+    // método para alterar os dados do funcionário
     private void alterar() {
         String sql = "update employee set name=?, phone=?, role=?, username=?, password=?, active=? where id=?";
         try {
