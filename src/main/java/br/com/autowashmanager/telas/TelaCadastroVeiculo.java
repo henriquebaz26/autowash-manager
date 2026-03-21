@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -29,6 +30,93 @@ public class TelaCadastroVeiculo extends javax.swing.JFrame {
     public TelaCadastroVeiculo() {
         initComponents();
         conexao = ModuloConexao.conector();
+    }
+
+    // metodo para adicionar veiculos
+    private void adicionar() {
+        String sql = "insert into vehicle (plate, brand, model, color, customer_id) values (?, ?, ?, ?, ?)";
+
+        try {
+            String placa = txtVeiculoPlaca.getText().trim().toUpperCase();
+            String marca = txtVeiculoMarca.getText().trim();
+            String modelo = txtVeiculoModelo.getText().trim();
+            String cor = txtVeiculoCor.getText().trim();
+            String idCliente = txtVeiculoIdCliente.getText().trim();
+
+            if (placa.isEmpty() || marca.isEmpty() || modelo.isEmpty()
+                    || cor.isEmpty() || idCliente.isEmpty()) {
+
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios");
+                return;
+            }
+
+            if (!validarPlaca(placa)) {
+                JOptionPane.showMessageDialog(null, "Placa inválida. Use o formato ABC1234 ou ABC1D23.");
+                txtVeiculoPlaca.requestFocus();
+                return;
+            }
+
+            if (!clienteExiste(idCliente)) {
+                JOptionPane.showMessageDialog(null, "Cliente não encontrado. Utilize a tabela de pesquisa ao lado.");
+                txtVeiculoIdCliente.requestFocus();
+                return;
+            }
+
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, placa);
+            pst.setString(2, marca);
+            pst.setString(3, modelo);
+            pst.setString(4, cor);
+            pst.setString(5, idCliente);
+
+            int adicionado = pst.executeUpdate();
+
+            if (adicionado > 0) {
+                JOptionPane.showMessageDialog(null, "Veículo adicionado com sucesso");
+                limpar();
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    private boolean validarPlaca(String placa) {
+        // Remove espaços e deixa tudo maiúsculo
+        placa = placa.trim().toUpperCase();
+
+        // Regex:
+        // ABC1234 ou ABC1D23
+        String regex = "^[A-Z]{3}[0-9][A-Z0-9][0-9]{2}$";
+
+        return placa.matches(regex);
+    }
+
+    private boolean clienteExiste(String idCliente) {
+        String sql = "select id from customer where id = ?";
+        try {
+            PreparedStatement pstCliente = conexao.prepareStatement(sql);
+            pstCliente.setString(1, idCliente);
+            ResultSet rs = pstCliente.executeQuery();
+            return rs.next();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+            return false;
+        }
+    }
+
+    // metodo para limpar os campos do formulário
+    private void limpar() {
+        txtVeiculoPlaca.setText(null);
+        txtVeiculoMarca.setText(null);
+        txtVeiculoModelo.setText(null);
+        txtVeiculoCor.setText(null);
+        txtVeiculoIdCliente.setText(null);
+        txtVeiculoPesquisar.setText(null);
+        ((DefaultTableModel) tblVeiculos.getModel()).setRowCount(0);
+        ((DefaultTableModel) tblClientes.getModel()).setRowCount(0);
+
+        btnVeiculoUpdate.setEnabled(false);
     }
 
     // método para pesquisar veiculo pela placa, marca, modelo e cor com filtro
@@ -119,6 +207,119 @@ public class TelaCadastroVeiculo extends javax.swing.JFrame {
         }
     }
 
+    private void setar_campos() {
+        txtVeiculoId.setText(null);
+        txtVeiculoPlaca.setText(null);
+        txtVeiculoMarca.setText(null);
+        txtVeiculoModelo.setText(null);
+        txtVeiculoCor.setText(null);
+
+        int setar = tblVeiculos.getSelectedRow();
+
+        txtVeiculoId.setText(tblVeiculos.getModel().getValueAt(setar, 0).toString());
+        txtVeiculoPlaca.setText(tblVeiculos.getModel().getValueAt(setar, 1).toString());
+        txtVeiculoMarca.setText(tblVeiculos.getModel().getValueAt(setar, 2).toString());
+        txtVeiculoModelo.setText(tblVeiculos.getModel().getValueAt(setar, 3).toString());
+        txtVeiculoCor.setText(tblVeiculos.getModel().getValueAt(setar, 4).toString());
+        txtVeiculoIdCliente.setText(tblVeiculos.getModel().getValueAt(setar, 5).toString());
+
+        // a linha abaixo desabilita os botões de adicionar e habilita o de atualizar
+        btnVeiculoCreate.setEnabled(false);
+        btnVeiculoUpdate.setEnabled(true);
+    }
+
+    private void setar_campo_id() {
+        txtVeiculoIdCliente.setText(null);
+
+        int setar = tblClientes.getSelectedRow();
+
+        txtVeiculoIdCliente.setText(tblClientes.getModel().getValueAt(setar, 0).toString());
+    }
+    
+    // método para alterar os dados do veiculo
+    private void alterar() {
+        String sql = "update vehicle set plate=?, brand=?, model=?, color=?, customer_id=? where id=?";
+
+        try {
+            String placa = txtVeiculoPlaca.getText().trim().toUpperCase();
+            String marca = txtVeiculoMarca.getText().trim();
+            String modelo = txtVeiculoModelo.getText().trim();
+            String cor = txtVeiculoCor.getText().trim();
+            String idCliente = txtVeiculoIdCliente.getText().trim();
+            String id = txtVeiculoId.getText().trim();
+
+            if (placa.isEmpty() || marca.isEmpty() || modelo.isEmpty()
+                    || cor.isEmpty() || idCliente.isEmpty()) {
+
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios");
+                return;
+            }
+
+            if (!validarPlaca(placa)) {
+                JOptionPane.showMessageDialog(null, "Placa inválida. Use o formato ABC1234 ou ABC1D23.");
+                txtVeiculoPlaca.requestFocus();
+                return;
+            }
+
+            if (!clienteExiste(idCliente)) {
+                JOptionPane.showMessageDialog(null, "Cliente não encontrado. Utilize a tabela de pesquisa ao lado.");
+                txtVeiculoIdCliente.requestFocus();
+                return;
+            }
+
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, placa);
+            pst.setString(2, marca);
+            pst.setString(3, modelo);
+            pst.setString(4, cor);
+            pst.setString(5, idCliente);
+            pst.setString(6, id);
+
+            int alterado = pst.executeUpdate();
+
+            if (alterado > 0) {
+                JOptionPane.showMessageDialog(null, "Dados do veículo alterados com sucesso");
+                limpar();
+                
+                btnVeiculoCreate.setEnabled(true);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    
+    // método responsável pela remoção dos veiculos
+    private void remover() {
+        // VALIDAÇÃO: verificar se algum veiculo foi selecionado
+    if (txtVeiculoId.getText().isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Selecione um veículo para excluir");
+        return;
+    }
+        
+        //a estrutura abaixo confirma a remoção do veículo
+        int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja remover este veículo?", "ATENÇÃO", JOptionPane.YES_NO_OPTION);
+
+        if (confirma == JOptionPane.YES_OPTION) {
+            String sql = "delete from vehicle where id=?";
+            try {
+                pst = conexao.prepareStatement(sql);
+                pst.setString(1, txtVeiculoId.getText());
+                int apagado = pst.executeUpdate();
+
+                if (apagado > 0) {
+                    JOptionPane.showMessageDialog(null, "Veículo removido com sucesso");
+                    limpar();
+
+                    btnVeiculoCreate.setEnabled(true);
+                    btnVeiculoUpdate.setEnabled(false);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -150,6 +351,22 @@ public class TelaCadastroVeiculo extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblClientes = new javax.swing.JTable();
+        jLabel6 = new javax.swing.JLabel();
+        txtVeiculoId = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        txtVeiculoPlaca = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        txtVeiculoMarca = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        txtVeiculoModelo = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        txtVeiculoCor = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        txtVeiculoIdCliente = new javax.swing.JTextField();
+        btnVeiculoDelete = new javax.swing.JButton();
+        btnVeiculoCreate = new javax.swing.JButton();
+        btnVeiculoUpdate = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("AutoWash Manager - Cadastro de Veículo");
@@ -315,6 +532,59 @@ public class TelaCadastroVeiculo extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel6.setText("Id");
+
+        txtVeiculoId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtVeiculoId.setToolTipText("");
+        txtVeiculoId.setEnabled(false);
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel7.setText("* Placa");
+
+        txtVeiculoPlaca.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel8.setText("* Campos Obrigatórios");
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel9.setText("* Marca");
+
+        txtVeiculoMarca.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel10.setText("* Modelo");
+
+        txtVeiculoModelo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel11.setText("* Cor");
+
+        txtVeiculoCor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtVeiculoCor.setToolTipText("");
+
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel12.setText("* Id do Cliente");
+
+        txtVeiculoIdCliente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtVeiculoIdCliente.setToolTipText("");
+
+        btnVeiculoDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/delete.png"))); // NOI18N
+        btnVeiculoDelete.setToolTipText("Deletar");
+        btnVeiculoDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnVeiculoDelete.addActionListener(this::btnVeiculoDeleteActionPerformed);
+
+        btnVeiculoCreate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/create.png"))); // NOI18N
+        btnVeiculoCreate.setToolTipText("Adicionar");
+        btnVeiculoCreate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnVeiculoCreate.addActionListener(this::btnVeiculoCreateActionPerformed);
+
+        btnVeiculoUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/update.png"))); // NOI18N
+        btnVeiculoUpdate.setToolTipText("Atualizar");
+        btnVeiculoUpdate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnVeiculoUpdate.setEnabled(false);
+        btnVeiculoUpdate.addActionListener(this::btnVeiculoUpdateActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -324,29 +594,66 @@ public class TelaCadastroVeiculo extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(txtVeiculoPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 326, Short.MAX_VALUE)
-                                .addComponent(jLabel2))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(18, 18, 18)
-                                .addComponent(rbtPlacaPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(rbtMarcaPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtVeiculoId, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel8))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel7)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtVeiculoPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(57, 57, 57)
+                                        .addComponent(jLabel9))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel10)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtVeiculoModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(rbtModeloPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rbtCorPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rbtNomeClientePesquisar)))
-                        .addGap(62, 62, 62))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtVeiculoCor))
+                                    .addComponent(txtVeiculoMarca)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtVeiculoIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(txtVeiculoPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 326, Short.MAX_VALUE)
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(rbtPlacaPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(rbtMarcaPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(rbtModeloPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rbtCorPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rbtNomeClientePesquisar)))
+                .addGap(62, 62, 62))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnVeiculoCreate)
+                .addGap(205, 205, 205)
+                .addComponent(btnVeiculoUpdate)
+                .addGap(195, 195, 195)
+                .addComponent(btnVeiculoDelete)
+                .addGap(256, 256, 256))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -366,9 +673,38 @@ public class TelaCadastroVeiculo extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(145, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(txtVeiculoId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(txtVeiculoPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9)
+                            .addComponent(txtVeiculoMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(44, 44, 44)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10)
+                            .addComponent(txtVeiculoModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel11)
+                            .addComponent(txtVeiculoCor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(44, 44, 44)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel12)
+                            .addComponent(txtVeiculoIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnVeiculoCreate, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnVeiculoUpdate)
+                    .addComponent(btnVeiculoDelete))
+                .addGap(25, 25, 25))
         );
 
         pack();
@@ -378,7 +714,7 @@ public class TelaCadastroVeiculo extends javax.swing.JFrame {
     private void tblVeiculosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblVeiculosMouseClicked
         // Chamando o método de setar campos
 
-//        setar_campos();
+        setar_campos();
     }//GEN-LAST:event_tblVeiculosMouseClicked
 
     private void txtVeiculoPesquisarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtVeiculoPesquisarKeyReleased
@@ -387,17 +723,35 @@ public class TelaCadastroVeiculo extends javax.swing.JFrame {
         pesquisar_veiculo();
     }//GEN-LAST:event_txtVeiculoPesquisarKeyReleased
 
-    private void tblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesMouseClicked
-        // Chamando o método de setar campos
-
-//        setar_campo_id();
-    }//GEN-LAST:event_tblClientesMouseClicked
-
     private void txtClientePesquisarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClientePesquisarKeyReleased
         // Chamando o método de pesquisar clientes
 
         pesquisar_cliente();
     }//GEN-LAST:event_txtClientePesquisarKeyReleased
+
+    private void tblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesMouseClicked
+        // Chamando o método de setar campos
+
+        setar_campo_id();
+    }//GEN-LAST:event_tblClientesMouseClicked
+
+    private void btnVeiculoDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVeiculoDeleteActionPerformed
+        // Chamando o método de exclusão de funcionário
+
+        remover();
+    }//GEN-LAST:event_btnVeiculoDeleteActionPerformed
+
+    private void btnVeiculoCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVeiculoCreateActionPerformed
+        // Chamando o metodo de adicionar funcionário
+
+        adicionar();
+    }//GEN-LAST:event_btnVeiculoCreateActionPerformed
+
+    private void btnVeiculoUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVeiculoUpdateActionPerformed
+        // Chamando o método de alterar informações de um funcionário
+
+        alterar();
+    }//GEN-LAST:event_btnVeiculoUpdateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -425,11 +779,21 @@ public class TelaCadastroVeiculo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnVeiculoCreate;
+    private javax.swing.JButton btnVeiculoDelete;
+    private javax.swing.JButton btnVeiculoUpdate;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -446,7 +810,13 @@ public class TelaCadastroVeiculo extends javax.swing.JFrame {
     private javax.swing.JTable tblClientes;
     private javax.swing.JTable tblVeiculos;
     private javax.swing.JTextField txtClientePesquisar;
+    private javax.swing.JTextField txtVeiculoCor;
+    private javax.swing.JTextField txtVeiculoId;
+    private javax.swing.JTextField txtVeiculoIdCliente;
+    private javax.swing.JTextField txtVeiculoMarca;
+    private javax.swing.JTextField txtVeiculoModelo;
     private javax.swing.JTextField txtVeiculoPesquisar;
+    private javax.swing.JTextField txtVeiculoPlaca;
     // End of variables declaration//GEN-END:variables
 
 }
