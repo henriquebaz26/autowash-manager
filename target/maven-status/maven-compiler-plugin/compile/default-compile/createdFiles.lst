@@ -1,4 +1,11 @@
 br\com\autowashmanager\telas\TelaCadastroCliente$5.class
+br\com\autowashmanager\telas\TelaCadastroVeiculo$4.class
+br\com\autowashmanager\telas\TelaCadastroVeiculo$5.class
+br\com\autowashmanager\telas\TelaCadastroVeiculo$2.class
+br\com\autowashmanager\telas\TelaCadastroVeiculo$3.class
 br\com\autowashmanager\service\BuscaCEP.class
 br\com\autowashmanager\telas\TelaCadastroCliente$4.class
 br\com\autowashmanager\model\Endereco.class
+br\com\autowashmanager\telas\TelaCadastroVeiculo.class
+br\com\autowashmanager\telas\TelaCadastroVeiculo$1.class
+br\com\autowashmanager\telas\TelaCadastroVeiculo$6.class

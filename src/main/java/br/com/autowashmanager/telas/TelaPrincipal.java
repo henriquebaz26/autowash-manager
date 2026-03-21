@@ -63,6 +63,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         MenuCadastro = new javax.swing.JMenu();
         MenuCadastroFuncionario = new javax.swing.JMenuItem();
         MenuCadastroCliente = new javax.swing.JMenuItem();
+        MenuCadastroVeiculo = new javax.swing.JMenuItem();
         MenuEmissao = new javax.swing.JMenu();
         MenuGestao = new javax.swing.JMenu();
         MenuRelatorios = new javax.swing.JMenu();
@@ -84,6 +85,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         MenuCadastroCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         MenuCadastroCliente.addActionListener(this::MenuCadastroClienteActionPerformed);
         MenuCadastro.add(MenuCadastroCliente);
+
+        MenuCadastroVeiculo.setText("Veículo");
+        MenuCadastroVeiculo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        MenuCadastroVeiculo.addActionListener(this::MenuCadastroVeiculoActionPerformed);
+        MenuCadastro.add(MenuCadastroVeiculo);
 
         Menu.add(MenuCadastro);
 
@@ -124,11 +130,18 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_MenuCadastroFuncionarioActionPerformed
 
     private void MenuCadastroClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuCadastroClienteActionPerformed
-        // Chamanda a tela de cadastro de cliente
+        // Chamando a Tela de Cadastro de Cliente
         
         TelaCadastroCliente telaCliente = new TelaCadastroCliente();
         telaCliente.setVisible(true);
     }//GEN-LAST:event_MenuCadastroClienteActionPerformed
+
+    private void MenuCadastroVeiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuCadastroVeiculoActionPerformed
+        // Chamando a Tela de Cadastro de Veículo
+        
+        TelaCadastroVeiculo telaVeiculo = new TelaCadastroVeiculo();
+        telaVeiculo.setVisible(true);
+    }//GEN-LAST:event_MenuCadastroVeiculoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -160,6 +173,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu MenuCadastro;
     private javax.swing.JMenuItem MenuCadastroCliente;
     private javax.swing.JMenuItem MenuCadastroFuncionario;
+    private javax.swing.JMenuItem MenuCadastroVeiculo;
     private javax.swing.JMenu MenuEmissao;
     private javax.swing.JMenu MenuGestao;
     private javax.swing.JMenu MenuRelatorios;
