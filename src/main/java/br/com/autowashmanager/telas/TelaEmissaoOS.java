@@ -912,18 +912,18 @@ public class TelaEmissaoOS extends javax.swing.JFrame {
         jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel12.setText("* Descrição");
 
-        btnOSCreate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/create.png"))); // NOI18N
+        btnOSCreate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/createOS.png"))); // NOI18N
         btnOSCreate.setToolTipText("Adicionar");
         btnOSCreate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnOSCreate.addActionListener(this::btnOSCreateActionPerformed);
 
-        btnOSUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/update.png"))); // NOI18N
+        btnOSUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/updateOS.png"))); // NOI18N
         btnOSUpdate.setToolTipText("Atualizar");
         btnOSUpdate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnOSUpdate.setEnabled(false);
         btnOSUpdate.addActionListener(this::btnOSUpdateActionPerformed);
 
-        btnOSDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/delete.png"))); // NOI18N
+        btnOSDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/deleteOS.png"))); // NOI18N
         btnOSDelete.setToolTipText("Deletar");
         btnOSDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnOSDelete.addActionListener(this::btnOSDeleteActionPerformed);
