@@ -60,7 +60,7 @@
             </Property>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="EmissaoOS">
+            <MenuItem class="javax.swing.JMenuItem" name="MenuEmissaoOS">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ordem de Servi&#xe7;o"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -68,7 +68,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EmissaoOSActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MenuEmissaoOSActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -80,6 +80,19 @@
               <Color id="Cursor em Forma de M&#xe3;o"/>
             </Property>
           </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="MenuGestaoProdutos">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Produtos"/>
+                <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                  <Color id="Cursor em Forma de M&#xe3;o"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MenuGestaoProdutosActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="MenuRelatorios">
           <Properties>

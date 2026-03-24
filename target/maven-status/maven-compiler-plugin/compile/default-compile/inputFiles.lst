@@ -2,10 +2,12 @@ C:\Users\h24he\OneDrive\Desktop\projetos\autowash-manager\AutoWashManager\src\ma
 C:\Users\h24he\OneDrive\Desktop\projetos\autowash-manager\AutoWashManager\src\main\java\br\com\autowashmanager\model\Endereco.java
 C:\Users\h24he\OneDrive\Desktop\projetos\autowash-manager\AutoWashManager\src\main\java\br\com\autowashmanager\service\BuscaCEP.java
 C:\Users\h24he\OneDrive\Desktop\projetos\autowash-manager\AutoWashManager\src\main\java\br\com\autowashmanager\service\ValidadorOS.java
+C:\Users\h24he\OneDrive\Desktop\projetos\autowash-manager\AutoWashManager\src\main\java\br\com\autowashmanager\service\ValidadorProduto.java
 C:\Users\h24he\OneDrive\Desktop\projetos\autowash-manager\AutoWashManager\src\main\java\br\com\autowashmanager\telas\TelaCadastroCliente.java
 C:\Users\h24he\OneDrive\Desktop\projetos\autowash-manager\AutoWashManager\src\main\java\br\com\autowashmanager\telas\TelaCadastroFuncionario.java
 C:\Users\h24he\OneDrive\Desktop\projetos\autowash-manager\AutoWashManager\src\main\java\br\com\autowashmanager\telas\TelaCadastroVeiculo.java
 C:\Users\h24he\OneDrive\Desktop\projetos\autowash-manager\AutoWashManager\src\main\java\br\com\autowashmanager\telas\TelaEmissaoOS.java
+C:\Users\h24he\OneDrive\Desktop\projetos\autowash-manager\AutoWashManager\src\main\java\br\com\autowashmanager\telas\TelaGestaoProdutos.java
 C:\Users\h24he\OneDrive\Desktop\projetos\autowash-manager\AutoWashManager\src\main\java\br\com\autowashmanager\telas\TelaLogin.java
 C:\Users\h24he\OneDrive\Desktop\projetos\autowash-manager\AutoWashManager\src\main\java\br\com\autowashmanager\telas\TelaPrincipal.java
 C:\Users\h24he\OneDrive\Desktop\projetos\autowash-manager\AutoWashManager\src\main\java\br\com\autowashmanager\util\DbUtils.java

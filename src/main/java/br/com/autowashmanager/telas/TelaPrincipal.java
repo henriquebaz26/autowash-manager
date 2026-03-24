@@ -65,8 +65,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         MenuCadastroCliente = new javax.swing.JMenuItem();
         MenuCadastroVeiculo = new javax.swing.JMenuItem();
         MenuEmissao = new javax.swing.JMenu();
-        EmissaoOS = new javax.swing.JMenuItem();
+        MenuEmissaoOS = new javax.swing.JMenuItem();
         MenuGestao = new javax.swing.JMenu();
+        MenuGestaoProdutos = new javax.swing.JMenuItem();
         MenuRelatorios = new javax.swing.JMenu();
 
         jMenuItem1.setText("jMenuItem1");
@@ -97,15 +98,21 @@ public class TelaPrincipal extends javax.swing.JFrame {
         MenuEmissao.setText("Emissão");
         MenuEmissao.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        EmissaoOS.setText("Ordem de Serviço");
-        EmissaoOS.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        EmissaoOS.addActionListener(this::EmissaoOSActionPerformed);
-        MenuEmissao.add(EmissaoOS);
+        MenuEmissaoOS.setText("Ordem de Serviço");
+        MenuEmissaoOS.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        MenuEmissaoOS.addActionListener(this::MenuEmissaoOSActionPerformed);
+        MenuEmissao.add(MenuEmissaoOS);
 
         Menu.add(MenuEmissao);
 
         MenuGestao.setText("Gestão");
         MenuGestao.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        MenuGestaoProdutos.setText("Produtos");
+        MenuGestaoProdutos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        MenuGestaoProdutos.addActionListener(this::MenuGestaoProdutosActionPerformed);
+        MenuGestao.add(MenuGestaoProdutos);
+
         Menu.add(MenuGestao);
 
         MenuRelatorios.setText("Relatórios");
@@ -150,12 +157,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
         telaVeiculo.setVisible(true);
     }//GEN-LAST:event_MenuCadastroVeiculoActionPerformed
 
-    private void EmissaoOSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EmissaoOSActionPerformed
+    private void MenuEmissaoOSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuEmissaoOSActionPerformed
         // Chamando a Tela de Emissão de Ordem de Serviço
         
         TelaEmissaoOS telaOS = new TelaEmissaoOS();
         telaOS.setVisible(true);
-    }//GEN-LAST:event_EmissaoOSActionPerformed
+    }//GEN-LAST:event_MenuEmissaoOSActionPerformed
+
+    private void MenuGestaoProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuGestaoProdutosActionPerformed
+        // Chamando a Tela de Gestão de Produtos
+        
+        TelaGestaoProdutos gestaoProdutos = new TelaGestaoProdutos();
+        gestaoProdutos.setVisible(true);
+    }//GEN-LAST:event_MenuGestaoProdutosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -183,14 +197,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem EmissaoOS;
     private javax.swing.JMenuBar Menu;
     private javax.swing.JMenu MenuCadastro;
     private javax.swing.JMenuItem MenuCadastroCliente;
     private javax.swing.JMenuItem MenuCadastroFuncionario;
     private javax.swing.JMenuItem MenuCadastroVeiculo;
     private javax.swing.JMenu MenuEmissao;
+    private javax.swing.JMenuItem MenuEmissaoOS;
     private javax.swing.JMenu MenuGestao;
+    private javax.swing.JMenuItem MenuGestaoProdutos;
     private javax.swing.JMenu MenuRelatorios;
     private javax.swing.JMenuItem jMenuItem1;
     // End of variables declaration//GEN-END:variables

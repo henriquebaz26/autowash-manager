@@ -502,7 +502,7 @@ public class TelaEmissaoOS extends javax.swing.JFrame {
 
     // método responsável pela remoção de OS
     private void remover() {
-        // VALIDAÇÃO: verificar se algum veiculo foi selecionado
+        // VALIDAÇÃO: verificar se alguma OS foi selecionado
         if (txtOSId.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Selecione uma OS para excluir");
             return;
