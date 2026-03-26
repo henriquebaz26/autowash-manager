@@ -39,21 +39,19 @@ public class TelaLogin extends javax.swing.JFrame {
             // se existir usuario e senha correspondente
             if (rs.next()) {
                 // a linha abaixo obtem o conteudo do campo perfil da tabela
-                String perfil = rs.getString(6);
+                String perfil = rs.getString(4);
                 // System.out.println(perfil);
                 // a estrutura abaixo faz o tratamento do perfil do usuario
-                if (perfil.equals("admin")) {
+                if (perfil.equals("ADMIN")) {
                     TelaPrincipal principal = new TelaPrincipal();
                     principal.setVisible(true);
-//                    TelaPrincipal.menuRelatorio.setEnabled(true);
-//                    TelaPrincipal.menuCadastroUsuario.setEnabled(true);
-//                    TelaPrincipal.lblUsuario.setText(rs.getString(2));
-//                    TelaPrincipal.lblUsuario.setForeground(Color.red);
+                    principal.MenuCadastroFuncionario.setEnabled(true);
+                    principal.MenuGestao.setEnabled(true);
+                    principal.MenuRelatorios.setEnabled(true);
                     this.dispose();
                 } else {
                     TelaPrincipal principal = new TelaPrincipal();
                     principal.setVisible(true);
-//                    TelaPrincipal.lblUsuario.setText(rs.getString(2));
                     this.dispose();
                 }
                 conexao.close();

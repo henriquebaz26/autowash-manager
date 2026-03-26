@@ -81,6 +81,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         MenuCadastroFuncionario.setText("Funcionário");
         MenuCadastroFuncionario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        MenuCadastroFuncionario.setEnabled(false);
         MenuCadastroFuncionario.addActionListener(this::MenuCadastroFuncionarioActionPerformed);
         MenuCadastro.add(MenuCadastroFuncionario);
 
@@ -108,6 +109,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         MenuGestao.setText("Gestão");
         MenuGestao.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        MenuGestao.setEnabled(false);
 
         MenuGestaoProdutos.setText("Produtos");
         MenuGestaoProdutos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -123,6 +125,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         MenuRelatorios.setText("Relatórios");
         MenuRelatorios.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        MenuRelatorios.setEnabled(false);
         Menu.add(MenuRelatorios);
 
         setJMenuBar(Menu);
@@ -213,14 +216,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar Menu;
     private javax.swing.JMenu MenuCadastro;
     private javax.swing.JMenuItem MenuCadastroCliente;
-    private javax.swing.JMenuItem MenuCadastroFuncionario;
+    public javax.swing.JMenuItem MenuCadastroFuncionario;
     private javax.swing.JMenuItem MenuCadastroVeiculo;
     private javax.swing.JMenu MenuEmissao;
     private javax.swing.JMenuItem MenuEmissaoOS;
-    private javax.swing.JMenu MenuGestao;
+    public javax.swing.JMenu MenuGestao;
     private javax.swing.JMenuItem MenuGestaoContas;
     private javax.swing.JMenuItem MenuGestaoProdutos;
-    private javax.swing.JMenu MenuRelatorios;
+    public javax.swing.JMenu MenuRelatorios;
     private javax.swing.JMenuItem jMenuItem1;
     // End of variables declaration//GEN-END:variables
 }
