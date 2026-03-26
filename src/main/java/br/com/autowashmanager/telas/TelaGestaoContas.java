@@ -42,37 +42,23 @@ public class TelaGestaoContas extends javax.swing.JFrame {
 
     // metodo responsavel por atualizar status das contas em comparação a data do sistema
     private void atualizar_status_dia() throws SQLException {
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate hoje = LocalDate.now();
-
         String selectSql = "SELECT id, due_date, payment_date from expense";
-
         String updateSql = "UPDATE expense SET status = ? WHERE id = ?";
 
-        try {
+        try (PreparedStatement pstSelect = conexao.prepareStatement(selectSql); ResultSet rsLocal = pstSelect.executeQuery(); PreparedStatement pstUpdate = conexao.prepareStatement(updateSql)) {
 
-            pst = conexao.prepareStatement(selectSql);
-            ResultSet rs = pst.executeQuery();
-
-            PreparedStatement pstUpdate = conexao.prepareStatement(updateSql);
-
-            while (rs.next()) {
-
-                int id = rs.getInt("id");
-                String dataVencimento = rs.getString("due_date");
-                String dataPagamento = rs.getString("payment_date");
+            while (rsLocal.next()) {
+                int id = rsLocal.getInt("id");
+                String dataVencimento = rsLocal.getString("due_date");
+                String dataPagamento = rsLocal.getString("payment_date");
 
                 LocalDate vencimento = LocalDate.parse(dataVencimento, formatter);
-
                 String status;
 
-                if (dataPagamento == null) {
-                    if (vencimento.isBefore(hoje)) {
-                        status = "VENCIDO";
-                    } else {
-                        status = "PARA PAGAMENTO";
-                    }
+                if (dataPagamento == null || dataPagamento.isEmpty()) {
+                    status = vencimento.isBefore(hoje) ? "VENCIDO" : "PARA PAGAMENTO";
                 } else {
                     status = "PAGO";
                 }
@@ -81,12 +67,8 @@ public class TelaGestaoContas extends javax.swing.JFrame {
                 pstUpdate.setInt(2, id);
                 pstUpdate.executeUpdate();
             }
-
-            rs.close();
-            pstUpdate.close();
-
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar status: " + e);
         }
     }
 
@@ -134,13 +116,12 @@ public class TelaGestaoContas extends javax.swing.JFrame {
             }
 
             // STATUS DA CONTA
-            String stringDataHoje = lblDataHoje.getText();
+            LocalDate hoje = LocalDate.now();
 
             DateTimeFormatter telaFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             DateTimeFormatter bancoFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
             // datas obrigatórias
-            LocalDate dataHoje = LocalDate.parse(stringDataHoje, telaFormatter);
             LocalDate dataVencimento = LocalDate.parse(dataVenc, telaFormatter);
 
             // data pagamento (opcional)
@@ -154,7 +135,7 @@ public class TelaGestaoContas extends javax.swing.JFrame {
 
             if (dataPagamento != null) {
                 status = "PAGO";
-            } else if (dataVencimento.isBefore(dataHoje)) {
+            } else if (dataVencimento.isBefore(hoje)) {
                 status = "VENCIDO";
             } else {
                 status = "PARA PAGAMENTO";
@@ -290,7 +271,7 @@ public class TelaGestaoContas extends javax.swing.JFrame {
         ((DefaultTableModel) tblContas.getModel()).setRowCount(0);
         // desabilita botão de update (se existir)
         btnContasAtualizar.setEnabled(false);
-        
+
         carregarListaAlertas();
     }
 
@@ -452,7 +433,7 @@ public class TelaGestaoContas extends javax.swing.JFrame {
                                 + " está vencida há " + Math.abs(diferencaDias) + " dias! ID: " + idConta);
                     }
                 }
-                
+
                 int contadorAlertas = modelo.getSize();
                 lblContasContadorAlertas.setText(String.valueOf(contadorAlertas));
             }

@@ -105,7 +105,7 @@ public class TelaGestaoProdutos extends javax.swing.JFrame {
         }
     }
 
-    // metodo para pesquisar cliente 
+    // metodo para pesquisar produto
     private void pesquisar_produto() {
         String sql = "select id as id, name as nome, price as preco, stock as estoque, min_stock as estoque_minimo from product where name like ?";
 
@@ -274,7 +274,6 @@ public class TelaGestaoProdutos extends javax.swing.JFrame {
     }
 
     private void setar_campos() {
-        limpar_campos();
 
         int setar = tblProdutos.getSelectedRow();
 
@@ -283,6 +282,9 @@ public class TelaGestaoProdutos extends javax.swing.JFrame {
         txtProdutoPreco.setText(tblProdutos.getModel().getValueAt(setar, 2).toString());
         txtProdutoEstoque.setText(tblProdutos.getModel().getValueAt(setar, 3).toString());
         txtProdutoEstoqueMinimo.setText(tblProdutos.getModel().getValueAt(setar, 4).toString());
+        
+        btnProdutoCreate.setEnabled(false);
+        btnProdutoUpdate.setEnabled(true);
 
     }
     

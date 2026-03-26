@@ -67,7 +67,7 @@ public class TelaCadastroVeiculo extends javax.swing.JFrame {
             pst.setString(2, marca);
             pst.setString(3, modelo);
             pst.setString(4, cor);
-            pst.setString(5, idCliente);
+            pst.setInt(5, Integer.parseInt(idCliente));
 
             int adicionado = pst.executeUpdate();
 
@@ -212,23 +212,32 @@ public class TelaCadastroVeiculo extends javax.swing.JFrame {
 
         int setar = tblVeiculos.getSelectedRow();
 
+        if (setar < 0) {
+            return;
+        }
+
         txtVeiculoId.setText(tblVeiculos.getModel().getValueAt(setar, 0).toString());
         txtVeiculoPlaca.setText(tblVeiculos.getModel().getValueAt(setar, 1).toString());
         txtVeiculoMarca.setText(tblVeiculos.getModel().getValueAt(setar, 2).toString());
         txtVeiculoModelo.setText(tblVeiculos.getModel().getValueAt(setar, 3).toString());
         txtVeiculoCor.setText(tblVeiculos.getModel().getValueAt(setar, 4).toString());
         txtVeiculoIdCliente.setText(tblVeiculos.getModel().getValueAt(setar, 5).toString());
-        
+
+        btnVeiculoCreate.setEnabled(false);
+        btnVeiculoUpdate.setEnabled(true);
+
     }
 
     private void setar_campo_id() {
-        txtVeiculoIdCliente.setText(null);
-
         int setar = tblClientes.getSelectedRow();
+
+        if (setar < 0) {
+            return;
+        }
 
         txtVeiculoIdCliente.setText(tblClientes.getModel().getValueAt(setar, 0).toString());
     }
-    
+
     // método para alterar os dados do veiculo
     private void alterar() {
         String sql = "update vehicle set plate=?, brand=?, model=?, color=?, customer_id=? where id=?";
@@ -265,15 +274,15 @@ public class TelaCadastroVeiculo extends javax.swing.JFrame {
             pst.setString(2, marca);
             pst.setString(3, modelo);
             pst.setString(4, cor);
-            pst.setString(5, idCliente);
-            pst.setString(6, id);
+            pst.setInt(5, Integer.parseInt(idCliente));
+            pst.setInt(6, Integer.parseInt(id));
 
             int alterado = pst.executeUpdate();
 
             if (alterado > 0) {
                 JOptionPane.showMessageDialog(null, "Dados do veículo alterados com sucesso");
                 limpar();
-                
+
                 btnVeiculoCreate.setEnabled(true);
             }
 
@@ -281,15 +290,15 @@ public class TelaCadastroVeiculo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-    
+
     // método responsável pela remoção dos veiculos
     private void remover() {
         // VALIDAÇÃO: verificar se algum veiculo foi selecionado
-    if (txtVeiculoId.getText().isEmpty()) {
-        JOptionPane.showMessageDialog(null, "Selecione um veículo para excluir");
-        return;
-    }
-        
+        if (txtVeiculoId.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Selecione um veículo para excluir");
+            return;
+        }
+
         //a estrutura abaixo confirma a remoção do veículo
         int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja remover este veículo?", "ATENÇÃO", JOptionPane.YES_NO_OPTION);
 
@@ -297,7 +306,7 @@ public class TelaCadastroVeiculo extends javax.swing.JFrame {
             String sql = "delete from vehicle where id=?";
             try {
                 pst = conexao.prepareStatement(sql);
-                pst.setString(1, txtVeiculoId.getText());
+                pst.setInt(1, Integer.parseInt(txtVeiculoId.getText()));;
                 int apagado = pst.executeUpdate();
 
                 if (apagado > 0) {
@@ -312,19 +321,19 @@ public class TelaCadastroVeiculo extends javax.swing.JFrame {
             }
         }
     }
-    
+
     private void limpar_campos() {
-        
+
         txtVeiculoId.setText(null);
         txtVeiculoPlaca.setText(null);
         txtVeiculoMarca.setText(null);
         txtVeiculoModelo.setText(null);
         txtVeiculoCor.setText(null);
+        txtVeiculoIdCliente.setText(null);
         
-        // a linha abaixo desabilita os botões de adicionar e habilita o de atualizar
         btnVeiculoCreate.setEnabled(true);
         btnVeiculoUpdate.setEnabled(false);
-        
+
     }
 
     /**
@@ -753,19 +762,19 @@ public class TelaCadastroVeiculo extends javax.swing.JFrame {
     }//GEN-LAST:event_tblClientesMouseClicked
 
     private void btnVeiculoDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVeiculoDeleteActionPerformed
-        // Chamando o método de exclusão de funcionário
+        // exclusão de veículo
 
         remover();
     }//GEN-LAST:event_btnVeiculoDeleteActionPerformed
 
     private void btnVeiculoCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVeiculoCreateActionPerformed
-        // Chamando o metodo de adicionar funcionário
+        // adicionar veículo
 
         adicionar();
     }//GEN-LAST:event_btnVeiculoCreateActionPerformed
 
     private void btnVeiculoUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVeiculoUpdateActionPerformed
-        // Chamando o método de alterar informações de um funcionário
+        // alterar informações de um veículo
 
         alterar();
     }//GEN-LAST:event_btnVeiculoUpdateActionPerformed

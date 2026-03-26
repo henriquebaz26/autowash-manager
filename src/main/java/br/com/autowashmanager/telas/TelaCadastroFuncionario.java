@@ -40,9 +40,9 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
             pst.setString(1, txtFuncionarioNome.getText());
             pst.setString(2, txtFuncionarioTelefone.getText());
             pst.setString(3, cboFuncionarioAtividade.getSelectedItem().toString());
-            pst.setString(4, cboFuncionarioStatus.getSelectedItem().toString());
-            pst.setString(5, txtFuncionarioLogin.getText());
-            pst.setString(6, txtFuncionarioSenha.getText());
+            pst.setString(4, txtFuncionarioLogin.getText());
+            pst.setString(5, txtFuncionarioSenha.getText());
+            pst.setString(6, cboFuncionarioStatus.getSelectedItem().toString());
 
             // validação dos campos obrigatórios            
             if ((txtFuncionarioNome.getText().isEmpty()) || (txtFuncionarioLogin.getText().isEmpty()) || (txtFuncionarioSenha.getText().isEmpty())) {
@@ -55,7 +55,7 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
                 System.out.println(adicionado);
                 if (adicionado > 0) {
                     JOptionPane.showMessageDialog(null, "Funcionário adicionado com sucesso");
-                    limpar();
+                    limparTudo();
                 }
             }
         } catch (Exception e) {
@@ -65,7 +65,7 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
     }
 
     // método para pesquisar funcionario pelo nome com filtro
-    private void pesquisar_funcionario() {
+    private void pesquisarFuncionario() {
         String sql = "select id as id, name as nome, phone as telefone, role as atividade, username as login, password as senha, active as status from employee where name like ?";
 
         try {
@@ -73,7 +73,7 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
             // passando o conteúdo da caixa de pesquisa para o interroga
             // atenção ao % que é a continuação da String sql
 
-            pst.setString(1, txtFuncionarioPesquisar.getText() + "%");
+            pst.setString(1, txtFuncionarioPesquisar.getText().trim() + "%");
             rs = pst.executeQuery();
             // a linha abaixo usa a classe DbUtils para preencher a tabela
             tblFuncionarios.setModel(DbUtils.resultSetToTableModel(rs));
@@ -82,24 +82,28 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-    
+
     // método para setar os campos do formulário com o conteúdo da tabela
-    public void setar_campos() { 
-        
-        limpar_campos();
-        
+    public void setarCampos() {
+
         int setar = tblFuncionarios.getSelectedRow();
+        if (setar == -1) {
+            return;
+        }
 
         txtFuncionarioId.setText(tblFuncionarios.getModel().getValueAt(setar, 0).toString());
         txtFuncionarioNome.setText(tblFuncionarios.getModel().getValueAt(setar, 1).toString());
         txtFuncionarioTelefone.setText(tblFuncionarios.getModel().getValueAt(setar, 2).toString());
         cboFuncionarioAtividade.setSelectedItem(tblFuncionarios.getModel().getValueAt(setar, 3).toString());
-        cboFuncionarioStatus.setSelectedItem(tblFuncionarios.getModel().getValueAt(setar, 4).toString());
-        txtFuncionarioLogin.setText(tblFuncionarios.getModel().getValueAt(setar, 5).toString());
-        txtFuncionarioSenha.setText(tblFuncionarios.getModel().getValueAt(setar, 6).toString());
- 
+        txtFuncionarioLogin.setText(tblFuncionarios.getModel().getValueAt(setar, 4).toString());
+        txtFuncionarioSenha.setText(tblFuncionarios.getModel().getValueAt(setar, 5).toString());
+        cboFuncionarioStatus.setSelectedItem(tblFuncionarios.getModel().getValueAt(setar, 6).toString());
+
+        btnFuncionarioUpdate.setEnabled(true);
+        btnFuncionarioCreate.setEnabled(false);
+
     }
-    
+
     // método para alterar os dados do funcionário
     private void alterar() {
         String sql = "update employee set name=?, phone=?, role=?, username=?, password=?, active=? where id=?";
@@ -123,7 +127,7 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
                 System.out.println(alterado);
                 if (alterado > 0) {
                     JOptionPane.showMessageDialog(null, "Dados do funcionário alterados com sucesso");
-                    limpar();
+                    limparTudo();
 
                     btnFuncionarioCreate.setEnabled(true);
                 }
@@ -132,15 +136,15 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-    
+
     // método responsável pela remoção dos funcionários
     private void remover() {
         // VALIDAÇÃO: verificar se algum funcionário foi selecionado
-    if (txtFuncionarioId.getText().isEmpty()) {
-        JOptionPane.showMessageDialog(null, "Selecione um funcionário para excluir");
-        return;
-    }
-        
+        if (txtFuncionarioId.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Selecione um funcionário para excluir");
+            return;
+        }
+
         //a estrutura abaixo confirma a remoção do funcionário
         int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja remover este funcionário?", "ATENÇÃO", JOptionPane.YES_NO_OPTION);
 
@@ -153,7 +157,7 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
 
                 if (apagado > 0) {
                     JOptionPane.showMessageDialog(null, "Funcionário removido com sucesso");
-                    limpar();
+                    limparTudo();
 
                     btnFuncionarioCreate.setEnabled(true);
                     btnFuncionarioUpdate.setEnabled(false);
@@ -163,9 +167,9 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
             }
         }
     }
-    
+
     // metodo para limpar os campos do formulário
-    private void limpar() {
+    private void limparTudo() {
         txtFuncionarioNome.setText(null);
         txtFuncionarioTelefone.setText(null);
         cboFuncionarioAtividade.setSelectedIndex(0);
@@ -173,20 +177,21 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
         txtFuncionarioLogin.setText(null);
         txtFuncionarioSenha.setText(null);
         txtFuncionarioPesquisar.setText(null);
-        ((DefaultTableModel) tblFuncionarios.getModel()).setRowCount(0);
-        
+        tblFuncionarios.setModel(new DefaultTableModel(null,
+                new String[]{"id", "nome", "telefone", "atividade", "login", "senha", "status"}));
+
+        btnFuncionarioCreate.setEnabled(true);
         btnFuncionarioUpdate.setEnabled(false);
     }
-    
-    private void limpar_campos() {
+
+    private void limparCampos() {
         txtFuncionarioNome.setText(null);
         txtFuncionarioTelefone.setText(null);
         cboFuncionarioAtividade.setSelectedIndex(0);
         cboFuncionarioStatus.setSelectedIndex(0);
         txtFuncionarioLogin.setText(null);
         txtFuncionarioSenha.setText(null);
-        txtFuncionarioPesquisar.setText(null);
-        
+
         // a linha abaixo desabilita os botões de adicionar e habilita o de atualizar
         btnFuncionarioCreate.setEnabled(true);
         btnFuncionarioUpdate.setEnabled(false);
@@ -458,7 +463,7 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
     private void txtFuncionarioPesquisarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFuncionarioPesquisarKeyReleased
         // Chamndo o método de pesquisa de funcionário
 
-        pesquisar_funcionario();
+        pesquisarFuncionario();
     }//GEN-LAST:event_txtFuncionarioPesquisarKeyReleased
 
     private void cboFuncionarioAtividadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboFuncionarioAtividadeActionPerformed
@@ -467,32 +472,32 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
 
     private void btnFuncionarioCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFuncionarioCreateActionPerformed
         // Chamando o metodo de adicionar funcionário
-        
+
         adicionar();
     }//GEN-LAST:event_btnFuncionarioCreateActionPerformed
 
     private void tblFuncionariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFuncionariosMouseClicked
         // Chamando o método de seta campos
-        
-        setar_campos();
+
+        setarCampos();
     }//GEN-LAST:event_tblFuncionariosMouseClicked
 
     private void btnFuncionarioUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFuncionarioUpdateActionPerformed
         // Chamando o método de alterar informações de um funcionário
-        
+
         alterar();
     }//GEN-LAST:event_btnFuncionarioUpdateActionPerformed
 
     private void btnFuncionarioDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFuncionarioDeleteActionPerformed
         // Chamando o método de exclusão de funcionário
-        
+
         remover();
     }//GEN-LAST:event_btnFuncionarioDeleteActionPerformed
 
     private void btnLimparCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparCamposActionPerformed
         // Chamando a tela de limpar campos
-        
-        limpar_campos();
+
+        limparCampos();
     }//GEN-LAST:event_btnLimparCamposActionPerformed
 
     /**

@@ -311,8 +311,6 @@ public class TelaEmissaoOS extends javax.swing.JFrame {
 
         try {
 
-            limpar_campos();
-
             int setar = tblOS.getSelectedRow();
             String idOS = tblOS.getModel().getValueAt(setar, 0).toString();
 
@@ -334,6 +332,9 @@ public class TelaEmissaoOS extends javax.swing.JFrame {
                 txtOSDescricao.setText(rs.getString("notes"));
             }
 
+            btnOSCreate.setEnabled(false);
+            btnOSUpdate.setEnabled(true);
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
@@ -341,24 +342,18 @@ public class TelaEmissaoOS extends javax.swing.JFrame {
 
     // metodo para setar o campo de id do veiculo
     private void setar_campo_id_veiculo() {
-
-        txtOSIdVeiculo.setText(null);
-
         int setar = tblVeiculos.getSelectedRow();
-
-        txtOSIdVeiculo.setText(tblVeiculos.getModel().getValueAt(setar, 0).toString());
-
+        if (setar >= 0) {
+            txtOSIdVeiculo.setText(tblVeiculos.getModel().getValueAt(setar, 0).toString());
+        }
     }
 
     // metodo para setar o campo de id do funcionario
     private void setar_campo_id_funcionario() {
-
-        txtOSIdFuncionario.setText(null);
-
         int setar = tblFuncionarios.getSelectedRow();
-
-        txtOSIdFuncionario.setText(tblFuncionarios.getModel().getValueAt(setar, 0).toString());
-
+        if (setar >= 0) {
+            txtOSIdFuncionario.setText(tblFuncionarios.getModel().getValueAt(setar, 0).toString());
+        }
     }
 
     // metodo para limpar os campos do formulário
@@ -373,11 +368,14 @@ public class TelaEmissaoOS extends javax.swing.JFrame {
         txtOSIdFuncionario.setText(null);
         txtOSDescricao.setText(null);
         txtVeiculoPesquisar.setText(null);
+        txtFuncionarioPesquisar.setText(null);
+        txtOSPesquisar.setText(null);
 
         ((DefaultTableModel) tblVeiculos.getModel()).setRowCount(0);
         ((DefaultTableModel) tblFuncionarios.getModel()).setRowCount(0);
         ((DefaultTableModel) tblOS.getModel()).setRowCount(0);
 
+        btnOSCreate.setEnabled(true);
         btnOSUpdate.setEnabled(false);
     }
 
@@ -518,9 +516,8 @@ public class TelaEmissaoOS extends javax.swing.JFrame {
             }
         }
     }
-    
+
     private void limpar_campos() {
-        
         txtOSId.setText(null);
         txtOSData.setText(null);
         txtOSHorarioEntrada.setText(null);
@@ -529,12 +526,11 @@ public class TelaEmissaoOS extends javax.swing.JFrame {
         cboOSStatus.setSelectedIndex(0);
         txtOSIdVeiculo.setText(null);
         txtOSIdFuncionario.setText(null);
-        txtOSDescricao.setText(null);  
-        
-        // a linha abaixo desabilita os botões de adicionar e habilita o de atualizar
+        txtOSDescricao.setText(null);
+
         btnOSCreate.setEnabled(true);
         btnOSUpdate.setEnabled(false);
-        
+
     }
 
     /**

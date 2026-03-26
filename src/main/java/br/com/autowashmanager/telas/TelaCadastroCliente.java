@@ -33,10 +33,10 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         initComponents();
         conexao = ModuloConexao.conector();
     }
-    
+
     // metodo para adicionar clientes
     private void adicionar() {
-        String sql = "insert into customer (name, phone, email, cep, street, number, neighborhood, city, state) values(?, ?, ?, ?, ?, ?, ?, ?, ?)"; 
+        String sql = "insert into customer (name, phone, email, cep, street, number, neighborhood, city, state) values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             pst = conexao.prepareStatement(sql);
             pst.setString(1, txtClienteNome.getText());
@@ -47,7 +47,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
             pst.setString(6, txtClienteNumero.getText());
             pst.setString(7, txtClienteBairro.getText());
             pst.setString(8, txtClienteCidade.getText());
-            pst.setString(9, txtClienteEstado.getText());           
+            pst.setString(9, txtClienteEstado.getText());
 
             // validação dos campos obrigatórios            
             if ((txtClienteNome.getText().isEmpty()) || (txtClienteTelefone.getText().isEmpty()) || (txtClienteCEP.getText().isEmpty()) || (txtClienteRua.getText().isEmpty()) || (txtClienteNumero.getText().isEmpty()) || (txtClienteBairro.getText().isEmpty()) || (txtClienteCidade.getText().isEmpty()) || (txtClienteEstado.getText().isEmpty())) {
@@ -60,7 +60,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
                 System.out.println(adicionado);
                 if (adicionado > 0) {
                     JOptionPane.showMessageDialog(null, "Cliente adicionado com sucesso");
-                    limpar();
+                    limparTudo();
                 }
             }
         } catch (Exception e) {
@@ -68,9 +68,9 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
 
         }
     }
-    
+
     // metodo para limpar os campos do formulário
-    private void limpar() {
+    private void limparTudo() {
         txtClienteId.setText(null);
         txtClienteNome.setText(null);
         txtClienteTelefone.setText(null);
@@ -82,12 +82,13 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         txtClienteCidade.setText(null);
         txtClienteEstado.setText(null);
         ((DefaultTableModel) tblClientes.getModel()).setRowCount(0);
-        
+        txtClientePesquisar.setText(null);
+
         btnClienteUpdate.setEnabled(false);
     }
 
     // método para pesquisar cliente pelo id, nome ou telefone com filtro
-    private void pesquisar_cliente() {
+    private void pesquisarCliente() {
 
         String coluna = "";
 
@@ -135,10 +136,13 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     }
 
     // método para setar os campos do formulário com o conteúdo da tabela
-    public void setar_campos() {
-        limpar_campos();
+    public void setarCampos() {
 
         int setar = tblClientes.getSelectedRow();
+
+        if (setar == -1) {
+            return;
+        }
 
         txtClienteId.setText(tblClientes.getModel().getValueAt(setar, 0).toString());
         txtClienteNome.setText(tblClientes.getModel().getValueAt(setar, 1).toString());
@@ -150,6 +154,10 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         txtClienteBairro.setText(tblClientes.getModel().getValueAt(setar, 7).toString());
         txtClienteCidade.setText(tblClientes.getModel().getValueAt(setar, 8).toString());
         txtClienteEstado.setText(tblClientes.getModel().getValueAt(setar, 9).toString());
+
+        // a linha abaixo desabilita os botões de adicionar e habilita o de atualizar
+        btnClienteUpdate.setEnabled(true);
+        btnClienteCreate.setEnabled(false);
 
     }
 
@@ -174,9 +182,15 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Erro ao buscar CEP.");
         }
     }
-    
+
     // método para alterar os dados do cliente
     private void alterar() {
+        
+        if (txtClienteId.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Selecione um cliente para atualizar");
+            return;
+        }
+
         String sql = "update customer set name=?, phone=?, email=?, cep=?, street=?, number=?, neighborhood=?, city=?, state=? where id=?";
         try {
             pst = conexao.prepareStatement(sql);
@@ -188,9 +202,9 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
             pst.setString(6, txtClienteNumero.getText());
             pst.setString(7, txtClienteBairro.getText());
             pst.setString(8, txtClienteCidade.getText());
-            pst.setString(9, txtClienteEstado.getText()); 
-            
-            pst.setString(10, txtClienteId.getText());
+            pst.setString(9, txtClienteEstado.getText());
+
+            pst.setInt(10, Integer.parseInt(txtClienteId.getText()));
 
             if ((txtClienteNome.getText().isEmpty()) || (txtClienteTelefone.getText().isEmpty()) || (txtClienteCEP.getText().isEmpty()) || (txtClienteRua.getText().isEmpty()) || (txtClienteNumero.getText().isEmpty()) || (txtClienteBairro.getText().isEmpty()) || (txtClienteCidade.getText().isEmpty()) || (txtClienteEstado.getText().isEmpty())) {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios");
@@ -202,7 +216,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
                 System.out.println(alterado);
                 if (alterado > 0) {
                     JOptionPane.showMessageDialog(null, "Dados do cliente alterados com sucesso");
-                    limpar();
+                    limparTudo();
 
                     btnClienteCreate.setEnabled(true);
                 }
@@ -211,15 +225,15 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-    
+
     // método responsável pela remoção de cliente
     private void remover() {
         // VALIDAÇÃO: verificar se algum cliente foi selecionado
-    if (txtClienteId.getText().isEmpty()) {
-        JOptionPane.showMessageDialog(null, "Selecione um cliente para excluir");
-        return;
-    }
-        
+        if (txtClienteId.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Selecione um cliente para excluir");
+            return;
+        }
+
         //a estrutura abaixo confirma a remoção do cliente
         int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja remover este cliente?", "ATENÇÃO", JOptionPane.YES_NO_OPTION);
 
@@ -227,12 +241,12 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
             String sql = "delete from customer where id=?";
             try {
                 pst = conexao.prepareStatement(sql);
-                pst.setString(1, txtClienteId.getText());
+                pst.setInt(1, Integer.parseInt(txtClienteId.getText()));
                 int apagado = pst.executeUpdate();
 
                 if (apagado > 0) {
                     JOptionPane.showMessageDialog(null, "Cliente removido com sucesso");
-                    limpar();
+                    limparTudo();
 
                     btnClienteCreate.setEnabled(true);
                     btnClienteUpdate.setEnabled(false);
@@ -242,9 +256,9 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
             }
         }
     }
-    
-    private void limpar_campos() {
-        
+
+    private void limparCampos() {
+
         txtClienteId.setText(null);
         txtClienteNome.setText(null);
         txtClienteTelefone.setText(null);
@@ -255,11 +269,10 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         txtClienteBairro.setText(null);
         txtClienteCidade.setText(null);
         txtClienteEstado.setText(null);
-        
-        // a linha abaixo desabilita os botões de adicionar e habilita o de atualizar
+
         btnClienteCreate.setEnabled(true);
         btnClienteUpdate.setEnabled(false);
-        
+
     }
 
     /**
@@ -610,14 +623,14 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
 
     private void txtClientePesquisarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClientePesquisarKeyReleased
         // Chamando o método de pesquisar clientes
-        pesquisar_cliente();
+        pesquisarCliente();
 
     }//GEN-LAST:event_txtClientePesquisarKeyReleased
 
     private void tblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesMouseClicked
         // Chamando o método de setar campos
 
-        setar_campos();
+        setarCampos();
     }//GEN-LAST:event_tblClientesMouseClicked
 
     private void txtClienteCEPFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtClienteCEPFocusLost
@@ -668,8 +681,8 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
 
     private void btnLimparCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparCamposActionPerformed
         // Chamando o método de limpar campos
-        
-        limpar_campos();
+
+        limparCampos();
     }//GEN-LAST:event_btnLimparCamposActionPerformed
 
     /**
