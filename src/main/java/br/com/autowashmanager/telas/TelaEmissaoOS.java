@@ -311,15 +311,7 @@ public class TelaEmissaoOS extends javax.swing.JFrame {
 
         try {
 
-            txtOSId.setText(null);
-            txtOSData.setText(null);
-            txtOSHorarioEntrada.setText(null);
-            txtOSHorarioEntrega.setText(null);
-            txtOSPreco.setText(null);
-            cboOSStatus.setSelectedIndex(0);
-            txtOSIdVeiculo.setText(null);
-            txtOSIdFuncionario.setText(null);
-            txtOSDescricao.setText(null);
+            limpar_campos();
 
             int setar = tblOS.getSelectedRow();
             String idOS = tblOS.getModel().getValueAt(setar, 0).toString();
@@ -341,10 +333,6 @@ public class TelaEmissaoOS extends javax.swing.JFrame {
                 txtOSIdFuncionario.setText(rs.getString("employee_id"));
                 txtOSDescricao.setText(rs.getString("notes"));
             }
-
-            // a linha abaixo desabilita os botões de adicionar e habilita o de atualizar
-            btnOSCreate.setEnabled(false);
-            btnOSUpdate.setEnabled(true);
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
@@ -530,6 +518,24 @@ public class TelaEmissaoOS extends javax.swing.JFrame {
             }
         }
     }
+    
+    private void limpar_campos() {
+        
+        txtOSId.setText(null);
+        txtOSData.setText(null);
+        txtOSHorarioEntrada.setText(null);
+        txtOSHorarioEntrega.setText(null);
+        txtOSPreco.setText(null);
+        cboOSStatus.setSelectedIndex(0);
+        txtOSIdVeiculo.setText(null);
+        txtOSIdFuncionario.setText(null);
+        txtOSDescricao.setText(null);  
+        
+        // a linha abaixo desabilita os botões de adicionar e habilita o de atualizar
+        btnOSCreate.setEnabled(true);
+        btnOSUpdate.setEnabled(false);
+        
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -596,6 +602,7 @@ public class TelaEmissaoOS extends javax.swing.JFrame {
         btnOSDelete = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtOSDescricao = new javax.swing.JTextArea();
+        btnLimparCampos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("AutoWash Manager - Tela de Emissão de Ordem de Serviço");
@@ -933,6 +940,11 @@ public class TelaEmissaoOS extends javax.swing.JFrame {
         txtOSDescricao.setRows(5);
         jScrollPane2.setViewportView(txtOSDescricao);
 
+        btnLimparCampos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/clear.png"))); // NOI18N
+        btnLimparCampos.setToolTipText("Limpar Campos");
+        btnLimparCampos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLimparCampos.addActionListener(this::btnLimparCamposActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -969,6 +981,8 @@ public class TelaEmissaoOS extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(84, 84, 84)
+                                .addComponent(btnLimparCampos)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
@@ -1054,7 +1068,11 @@ public class TelaEmissaoOS extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(btnLimparCampos)
+                                .addGap(54, 54, 54))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(38, 38, 38)
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -1160,6 +1178,12 @@ public class TelaEmissaoOS extends javax.swing.JFrame {
         remover();
     }//GEN-LAST:event_btnOSDeleteActionPerformed
 
+    private void btnLimparCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparCamposActionPerformed
+        // Chamando a tela de limpar campos
+
+        limpar_campos();
+    }//GEN-LAST:event_btnLimparCamposActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1186,6 +1210,7 @@ public class TelaEmissaoOS extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnLimparCampos;
     private javax.swing.JButton btnOSCreate;
     private javax.swing.JButton btnOSDelete;
     private javax.swing.JButton btnOSUpdate;

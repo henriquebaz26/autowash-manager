@@ -274,11 +274,7 @@ public class TelaGestaoProdutos extends javax.swing.JFrame {
     }
 
     private void setar_campos() {
-        txtProdutoId.setText(null);
-        txtProdutoNome.setText(null);
-        txtProdutoPreco.setText(null);
-        txtProdutoEstoque.setText(null);
-        txtProdutoEstoqueMinimo.setText(null);
+        limpar_campos();
 
         int setar = tblProdutos.getSelectedRow();
 
@@ -288,9 +284,20 @@ public class TelaGestaoProdutos extends javax.swing.JFrame {
         txtProdutoEstoque.setText(tblProdutos.getModel().getValueAt(setar, 3).toString());
         txtProdutoEstoqueMinimo.setText(tblProdutos.getModel().getValueAt(setar, 4).toString());
 
+    }
+    
+    private void limpar_campos() {
+        
+        txtProdutoId.setText(null);
+        txtProdutoNome.setText(null);
+        txtProdutoPreco.setText(null);
+        txtProdutoEstoque.setText(null);
+        txtProdutoEstoqueMinimo.setText(null);  
+        
         // controle de botões
-        btnProdutoCreate.setEnabled(false);
-        btnProdutoUpdate.setEnabled(true);
+        btnProdutoCreate.setEnabled(true);
+        btnProdutoUpdate.setEnabled(false);
+        
     }
 
     /**
@@ -322,6 +329,7 @@ public class TelaGestaoProdutos extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         txtProdutoId = new javax.swing.JTextField();
+        btnLimparCampos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("AutoWash Manager - Gestão de Produtos");
@@ -415,18 +423,15 @@ public class TelaGestaoProdutos extends javax.swing.JFrame {
         txtProdutoId.setToolTipText("");
         txtProdutoId.setEnabled(false);
 
+        btnLimparCampos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/clear.png"))); // NOI18N
+        btnLimparCampos.setToolTipText("Limpar Campos");
+        btnLimparCampos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLimparCampos.addActionListener(this::btnLimparCamposActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(170, 170, 170)
-                .addComponent(btnProdutoCreate)
-                .addGap(205, 205, 205)
-                .addComponent(btnProdutoUpdate)
-                .addGap(195, 195, 195)
-                .addComponent(btnProdutoDelete)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(378, 378, 378)
                 .addComponent(jLabel1)
@@ -445,23 +450,32 @@ public class TelaGestaoProdutos extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(txtProdutoPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(49, 49, 49)
-                                        .addComponent(jLabel4)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtProdutoEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(305, 305, 305))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jLabel9)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtProdutoId, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtProdutoNome, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(47, 47, 47))))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnLimparCampos)
+                                        .addGap(100, 100, 100)
+                                        .addComponent(btnProdutoCreate)
+                                        .addGap(100, 100, 100)
+                                        .addComponent(btnProdutoUpdate)
+                                        .addGap(100, 100, 100)
+                                        .addComponent(btnProdutoDelete))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                            .addComponent(txtProdutoPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(49, 49, 49)
+                                            .addComponent(jLabel4)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(txtProdutoEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(305, 305, 305))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                            .addComponent(jLabel9)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(txtProdutoId, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jLabel2)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(txtProdutoNome, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(47, 47, 47)))))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(101, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -490,18 +504,21 @@ public class TelaGestaoProdutos extends javax.swing.JFrame {
                     .addComponent(jLabel9)
                     .addComponent(txtProdutoId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(42, 42, 42)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtProdutoEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtProdutoEstoqueMinimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtProdutoPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(42, 42, 42)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnProdutoCreate, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnProdutoUpdate)
-                    .addComponent(btnProdutoDelete))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(txtProdutoEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5)
+                            .addComponent(txtProdutoEstoqueMinimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)
+                            .addComponent(txtProdutoPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(42, 42, 42)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnProdutoCreate)
+                            .addComponent(btnProdutoUpdate)
+                            .addComponent(btnProdutoDelete)))
+                    .addComponent(btnLimparCampos))
                 .addGap(29, 29, 29)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -553,6 +570,12 @@ public class TelaGestaoProdutos extends javax.swing.JFrame {
         pesquisar_produto();
     }//GEN-LAST:event_txtProdutoPesquisarKeyReleased
 
+    private void btnLimparCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparCamposActionPerformed
+        // Chamando a tela de limpar campos
+
+        limpar_campos();
+    }//GEN-LAST:event_btnLimparCamposActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -579,6 +602,7 @@ public class TelaGestaoProdutos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnLimparCampos;
     private javax.swing.JButton btnProdutoCreate;
     private javax.swing.JButton btnProdutoDelete;
     private javax.swing.JButton btnProdutoUpdate;

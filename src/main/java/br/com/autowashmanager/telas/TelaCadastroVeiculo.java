@@ -208,11 +208,7 @@ public class TelaCadastroVeiculo extends javax.swing.JFrame {
     }
 
     private void setar_campos() {
-        txtVeiculoId.setText(null);
-        txtVeiculoPlaca.setText(null);
-        txtVeiculoMarca.setText(null);
-        txtVeiculoModelo.setText(null);
-        txtVeiculoCor.setText(null);
+        limpar_campos();
 
         int setar = tblVeiculos.getSelectedRow();
 
@@ -222,10 +218,7 @@ public class TelaCadastroVeiculo extends javax.swing.JFrame {
         txtVeiculoModelo.setText(tblVeiculos.getModel().getValueAt(setar, 3).toString());
         txtVeiculoCor.setText(tblVeiculos.getModel().getValueAt(setar, 4).toString());
         txtVeiculoIdCliente.setText(tblVeiculos.getModel().getValueAt(setar, 5).toString());
-
-        // a linha abaixo desabilita os botões de adicionar e habilita o de atualizar
-        btnVeiculoCreate.setEnabled(false);
-        btnVeiculoUpdate.setEnabled(true);
+        
     }
 
     private void setar_campo_id() {
@@ -319,6 +312,20 @@ public class TelaCadastroVeiculo extends javax.swing.JFrame {
             }
         }
     }
+    
+    private void limpar_campos() {
+        
+        txtVeiculoId.setText(null);
+        txtVeiculoPlaca.setText(null);
+        txtVeiculoMarca.setText(null);
+        txtVeiculoModelo.setText(null);
+        txtVeiculoCor.setText(null);
+        
+        // a linha abaixo desabilita os botões de adicionar e habilita o de atualizar
+        btnVeiculoCreate.setEnabled(true);
+        btnVeiculoUpdate.setEnabled(false);
+        
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -367,6 +374,7 @@ public class TelaCadastroVeiculo extends javax.swing.JFrame {
         btnVeiculoDelete = new javax.swing.JButton();
         btnVeiculoCreate = new javax.swing.JButton();
         btnVeiculoUpdate = new javax.swing.JButton();
+        btnLimparCampos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("AutoWash Manager - Cadastro de Veículo");
@@ -585,6 +593,11 @@ public class TelaCadastroVeiculo extends javax.swing.JFrame {
         btnVeiculoUpdate.setEnabled(false);
         btnVeiculoUpdate.addActionListener(this::btnVeiculoUpdateActionPerformed);
 
+        btnLimparCampos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/clear.png"))); // NOI18N
+        btnLimparCampos.setToolTipText("Limpar Campos");
+        btnLimparCampos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLimparCampos.addActionListener(this::btnLimparCamposActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -592,6 +605,26 @@ public class TelaCadastroVeiculo extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(60, 60, 60)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(txtVeiculoPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 326, Short.MAX_VALUE)
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(rbtPlacaPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(rbtMarcaPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(rbtModeloPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rbtCorPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rbtNomeClientePesquisar)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(39, 39, 39)
@@ -626,34 +659,17 @@ public class TelaCadastroVeiculo extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtVeiculoIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(txtVeiculoPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 326, Short.MAX_VALUE)
-                        .addComponent(jLabel2))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
-                        .addComponent(rbtPlacaPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(rbtMarcaPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(rbtModeloPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rbtCorPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rbtNomeClientePesquisar)))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnLimparCampos)
+                        .addGap(100, 100, 100)
+                        .addComponent(btnVeiculoCreate)
+                        .addGap(100, 100, 100)
+                        .addComponent(btnVeiculoUpdate)
+                        .addGap(100, 100, 100)
+                        .addComponent(btnVeiculoDelete)
+                        .addGap(216, 216, 216)))
                 .addGap(62, 62, 62))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnVeiculoCreate)
-                .addGap(205, 205, 205)
-                .addComponent(btnVeiculoUpdate)
-                .addGap(195, 195, 195)
-                .addComponent(btnVeiculoDelete)
-                .addGap(256, 256, 256))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -699,12 +715,13 @@ public class TelaCadastroVeiculo extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel12)
                             .addComponent(txtVeiculoIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnVeiculoCreate, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnVeiculoCreate)
                     .addComponent(btnVeiculoUpdate)
-                    .addComponent(btnVeiculoDelete))
-                .addGap(25, 25, 25))
+                    .addComponent(btnVeiculoDelete)
+                    .addComponent(btnLimparCampos))
+                .addGap(24, 24, 24))
         );
 
         pack();
@@ -753,6 +770,12 @@ public class TelaCadastroVeiculo extends javax.swing.JFrame {
         alterar();
     }//GEN-LAST:event_btnVeiculoUpdateActionPerformed
 
+    private void btnLimparCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparCamposActionPerformed
+        // Chamando a tela de limpar campos
+
+        limpar_campos();
+    }//GEN-LAST:event_btnLimparCamposActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -779,6 +802,7 @@ public class TelaCadastroVeiculo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnLimparCampos;
     private javax.swing.JButton btnVeiculoCreate;
     private javax.swing.JButton btnVeiculoDelete;
     private javax.swing.JButton btnVeiculoUpdate;

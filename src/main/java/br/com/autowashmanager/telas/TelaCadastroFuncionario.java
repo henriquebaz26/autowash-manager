@@ -85,13 +85,8 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
     
     // método para setar os campos do formulário com o conteúdo da tabela
     public void setar_campos() { 
-        txtFuncionarioNome.setText(null);
-        txtFuncionarioTelefone.setText(null);
-        cboFuncionarioAtividade.setSelectedIndex(0);
-        cboFuncionarioStatus.setSelectedIndex(0);
-        txtFuncionarioLogin.setText(null);
-        txtFuncionarioSenha.setText(null);
-        txtFuncionarioPesquisar.setText(null);
+        
+        limpar_campos();
         
         int setar = tblFuncionarios.getSelectedRow();
 
@@ -102,10 +97,7 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
         cboFuncionarioStatus.setSelectedItem(tblFuncionarios.getModel().getValueAt(setar, 4).toString());
         txtFuncionarioLogin.setText(tblFuncionarios.getModel().getValueAt(setar, 5).toString());
         txtFuncionarioSenha.setText(tblFuncionarios.getModel().getValueAt(setar, 6).toString());
-
-        // a linha abaixo desabilita os botões de adicionar e habilita o de atualizar
-        btnFuncionarioCreate.setEnabled(false);
-        btnFuncionarioUpdate.setEnabled(true);
+ 
     }
     
     // método para alterar os dados do funcionário
@@ -185,6 +177,20 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
         
         btnFuncionarioUpdate.setEnabled(false);
     }
+    
+    private void limpar_campos() {
+        txtFuncionarioNome.setText(null);
+        txtFuncionarioTelefone.setText(null);
+        cboFuncionarioAtividade.setSelectedIndex(0);
+        cboFuncionarioStatus.setSelectedIndex(0);
+        txtFuncionarioLogin.setText(null);
+        txtFuncionarioSenha.setText(null);
+        txtFuncionarioPesquisar.setText(null);
+        
+        // a linha abaixo desabilita os botões de adicionar e habilita o de atualizar
+        btnFuncionarioCreate.setEnabled(true);
+        btnFuncionarioUpdate.setEnabled(false);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -217,6 +223,7 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
         btnFuncionarioCreate = new javax.swing.JButton();
         btnFuncionarioUpdate = new javax.swing.JButton();
         btnFuncionarioDelete = new javax.swing.JButton();
+        btnLimparCampos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("AutoWash Manager - Cadastro de Funcionário");
@@ -321,6 +328,11 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
         btnFuncionarioDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnFuncionarioDelete.addActionListener(this::btnFuncionarioDeleteActionPerformed);
 
+        btnLimparCampos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/clear.png"))); // NOI18N
+        btnLimparCampos.setToolTipText("Limpar Campos");
+        btnLimparCampos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLimparCampos.addActionListener(this::btnLimparCamposActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -340,14 +352,10 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
                                 .addComponent(txtFuncionarioPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 326, Short.MAX_VALUE)
                                 .addComponent(jLabel2))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtFuncionarioLogin))
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(layout.createSequentialGroup()
                                             .addComponent(jLabel6)
@@ -356,9 +364,19 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
                                         .addGroup(layout.createSequentialGroup()
                                             .addComponent(jLabel4)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(txtFuncionarioNome, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
+                                            .addComponent(txtFuncionarioNome, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(jLabel7)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(127, 127, 127)
+                                                .addComponent(btnLimparCampos)
+                                                .addGap(100, 100, 100)
+                                                .addComponent(btnFuncionarioCreate))
+                                            .addComponent(txtFuncionarioLogin))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                         .addGap(133, 133, 133)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(layout.createSequentialGroup()
@@ -370,20 +388,18 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addComponent(cboFuncionarioStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(0, 0, Short.MAX_VALUE))))
-                                    .addGroup(layout.createSequentialGroup()
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                         .addGap(134, 134, 134)
                                         .addComponent(jLabel8)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtFuncionarioSenha)))))
+                                        .addComponent(txtFuncionarioSenha))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addGap(100, 100, 100)
+                                        .addComponent(btnFuncionarioUpdate)
+                                        .addGap(100, 100, 100)
+                                        .addComponent(btnFuncionarioDelete)
+                                        .addGap(0, 0, Short.MAX_VALUE)))))
                         .addGap(58, 58, 58))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(262, Short.MAX_VALUE)
-                .addComponent(btnFuncionarioCreate)
-                .addGap(205, 205, 205)
-                .addComponent(btnFuncionarioUpdate)
-                .addGap(195, 195, 195)
-                .addComponent(btnFuncionarioDelete)
-                .addGap(261, 261, 261))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -418,12 +434,16 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
                     .addComponent(jLabel8)
                     .addComponent(txtFuncionarioSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(40, 40, 40)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnFuncionarioCreate, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnFuncionarioUpdate)
-                    .addComponent(btnFuncionarioDelete))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(btnFuncionarioCreate)
+                        .addComponent(btnFuncionarioUpdate)
+                        .addComponent(btnFuncionarioDelete))
+                    .addComponent(btnLimparCampos))
                 .addContainerGap(49, Short.MAX_VALUE))
         );
+
+        btnLimparCampos.getAccessibleContext().setAccessibleDescription("Limpar Campos");
 
         getAccessibleContext().setAccessibleDescription("");
 
@@ -469,6 +489,12 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
         remover();
     }//GEN-LAST:event_btnFuncionarioDeleteActionPerformed
 
+    private void btnLimparCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparCamposActionPerformed
+        // Chamando a tela de limpar campos
+        
+        limpar_campos();
+    }//GEN-LAST:event_btnLimparCamposActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -498,6 +524,7 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
     private javax.swing.JButton btnFuncionarioCreate;
     private javax.swing.JButton btnFuncionarioDelete;
     private javax.swing.JButton btnFuncionarioUpdate;
+    private javax.swing.JButton btnLimparCampos;
     private javax.swing.JComboBox<String> cboFuncionarioAtividade;
     private javax.swing.JComboBox<String> cboFuncionarioStatus;
     private javax.swing.JLabel jLabel1;

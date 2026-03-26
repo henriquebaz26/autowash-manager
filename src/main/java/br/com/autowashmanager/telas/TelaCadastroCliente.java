@@ -136,16 +136,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
 
     // método para setar os campos do formulário com o conteúdo da tabela
     public void setar_campos() {
-        txtClienteId.setText(null);
-        txtClienteNome.setText(null);
-        txtClienteTelefone.setText(null);
-        txtClienteEmail.setText(null);
-        txtClienteCEP.setText(null);
-        txtClienteRua.setText(null);
-        txtClienteNumero.setText(null);
-        txtClienteBairro.setText(null);
-        txtClienteCidade.setText(null);
-        txtClienteEstado.setText(null);
+        limpar_campos();
 
         int setar = tblClientes.getSelectedRow();
 
@@ -160,9 +151,6 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         txtClienteCidade.setText(tblClientes.getModel().getValueAt(setar, 8).toString());
         txtClienteEstado.setText(tblClientes.getModel().getValueAt(setar, 9).toString());
 
-        // a linha abaixo desabilita os botões de adicionar e habilita o de atualizar
-        btnClienteCreate.setEnabled(false);
-        btnClienteUpdate.setEnabled(true);
     }
 
     private void buscarCep() {
@@ -254,6 +242,25 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
             }
         }
     }
+    
+    private void limpar_campos() {
+        
+        txtClienteId.setText(null);
+        txtClienteNome.setText(null);
+        txtClienteTelefone.setText(null);
+        txtClienteEmail.setText(null);
+        txtClienteCEP.setText(null);
+        txtClienteRua.setText(null);
+        txtClienteNumero.setText(null);
+        txtClienteBairro.setText(null);
+        txtClienteCidade.setText(null);
+        txtClienteEstado.setText(null);
+        
+        // a linha abaixo desabilita os botões de adicionar e habilita o de atualizar
+        btnClienteCreate.setEnabled(true);
+        btnClienteUpdate.setEnabled(false);
+        
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -298,6 +305,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         btnClienteCreate = new javax.swing.JButton();
         btnClienteUpdate = new javax.swing.JButton();
         btnClienteDelete = new javax.swing.JButton();
+        btnLimparCampos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("AutoWash Manager - Cadastro de Clientes");
@@ -323,6 +331,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
                 "id", "nome", "telefone", "email", "cep", "rua", "número", "bairro", "cidade", "estado"
             }
         ));
+        tblClientes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         tblClientes.setFocusable(false);
         tblClientes.getTableHeader().setReorderingAllowed(false);
         tblClientes.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -445,6 +454,11 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         btnClienteDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnClienteDelete.addActionListener(this::btnClienteDeleteActionPerformed);
 
+        btnLimparCampos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/clear.png"))); // NOI18N
+        btnLimparCampos.setToolTipText("Limpar Campos");
+        btnLimparCampos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLimparCampos.addActionListener(this::btnLimparCamposActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -453,15 +467,15 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
                 .addGap(51, 51, 51)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1)
-                            .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(txtClientePesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel2))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtClienteId, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -474,18 +488,6 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
                                 .addGap(9, 9, 9)
                                 .addComponent(txtClienteTelefone))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtClienteBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(55, 55, 55)
-                                .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtClienteCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(57, 57, 57)
-                                .addComponent(jLabel12)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtClienteEstado))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtClienteCEP, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
@@ -498,7 +500,19 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
                                 .addGap(9, 93, Short.MAX_VALUE)
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtClienteNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtClienteNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtClienteBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(81, 81, 81)
+                                .addComponent(jLabel11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtClienteCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(57, 57, 57)
+                                .addComponent(jLabel12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtClienteEstado)))
                         .addGap(52, 52, 52))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -515,14 +529,16 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtClienteEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(266, 266, 266)
+                .addComponent(btnLimparCampos)
+                .addGap(100, 100, 100)
                 .addComponent(btnClienteCreate)
-                .addGap(205, 205, 205)
+                .addGap(100, 100, 100)
                 .addComponent(btnClienteUpdate)
-                .addGap(195, 195, 195)
+                .addGap(100, 100, 100)
                 .addComponent(btnClienteDelete)
-                .addGap(260, 260, 260))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -569,15 +585,18 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
                     .addComponent(jLabel12)
                     .addComponent(txtClienteEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnClienteCreate, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnClienteUpdate)
-                    .addComponent(btnClienteDelete))
-                .addContainerGap())
+                    .addComponent(btnClienteUpdate, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnClienteDelete, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnLimparCampos, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(32, 32, 32))
         );
 
         lblBuscarCEP.getAccessibleContext().setAccessibleName("BuscarCEP");
+        btnLimparCampos.getAccessibleContext().setAccessibleName("Limpar ");
+        btnLimparCampos.getAccessibleContext().setAccessibleDescription("Limpar ");
 
         getAccessibleContext().setAccessibleDescription("");
 
@@ -647,6 +666,12 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         remover();
     }//GEN-LAST:event_btnClienteDeleteActionPerformed
 
+    private void btnLimparCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparCamposActionPerformed
+        // Chamando o método de limpar campos
+        
+        limpar_campos();
+    }//GEN-LAST:event_btnLimparCamposActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -676,6 +701,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     private javax.swing.JButton btnClienteCreate;
     private javax.swing.JButton btnClienteDelete;
     private javax.swing.JButton btnClienteUpdate;
+    private javax.swing.JButton btnLimparCampos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
