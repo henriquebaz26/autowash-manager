@@ -68,6 +68,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         MenuEmissaoOS = new javax.swing.JMenuItem();
         MenuGestao = new javax.swing.JMenu();
         MenuGestaoProdutos = new javax.swing.JMenuItem();
+        MenuGestaoContas = new javax.swing.JMenuItem();
         MenuRelatorios = new javax.swing.JMenu();
 
         jMenuItem1.setText("jMenuItem1");
@@ -112,6 +113,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         MenuGestaoProdutos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         MenuGestaoProdutos.addActionListener(this::MenuGestaoProdutosActionPerformed);
         MenuGestao.add(MenuGestaoProdutos);
+
+        MenuGestaoContas.setText("Contas");
+        MenuGestaoContas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        MenuGestaoContas.addActionListener(this::MenuGestaoContasActionPerformed);
+        MenuGestao.add(MenuGestaoContas);
 
         Menu.add(MenuGestao);
 
@@ -171,6 +177,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
         gestaoProdutos.setVisible(true);
     }//GEN-LAST:event_MenuGestaoProdutosActionPerformed
 
+    private void MenuGestaoContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuGestaoContasActionPerformed
+        // Chamando a Tela de Gestão de Contas
+        
+        TelaGestaoContas gestaoContas = new TelaGestaoContas();
+        gestaoContas.setVisible(true);
+    }//GEN-LAST:event_MenuGestaoContasActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -205,6 +218,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu MenuEmissao;
     private javax.swing.JMenuItem MenuEmissaoOS;
     private javax.swing.JMenu MenuGestao;
+    private javax.swing.JMenuItem MenuGestaoContas;
     private javax.swing.JMenuItem MenuGestaoProdutos;
     private javax.swing.JMenu MenuRelatorios;
     private javax.swing.JMenuItem jMenuItem1;
