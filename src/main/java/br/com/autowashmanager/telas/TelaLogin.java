@@ -49,6 +49,7 @@ public class TelaLogin extends javax.swing.JFrame {
                     principal.MenuGestao.setEnabled(true);
                     principal.MenuRelatorios.setEnabled(true);
                     this.dispose();
+                    
                 } else {
                     TelaPrincipal principal = new TelaPrincipal();
                     principal.setVisible(true);

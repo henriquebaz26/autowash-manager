@@ -99,6 +99,8 @@ employee_id INTEGER,
 
 notes TEXT,
 
+service_date TEXT,
+
 FOREIGN KEY (vehicle_id) REFERENCES vehicle(id),
 
 FOREIGN KEY (employee_id) REFERENCES employee(id)

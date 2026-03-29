@@ -22,6 +22,7 @@ br\com\autowashmanager\telas\TelaCadastroVeiculo$4.class
 br\com\autowashmanager\telas\TelaEmissaoOS$3.class
 br\com\autowashmanager\telas\TelaGestaoContas.class
 br\com\autowashmanager\telas\TelaGestaoContas$4.class
+br\com\autowashmanager\telas\TelaRelatórios.class
 br\com\autowashmanager\service\BuscaCEP.class
 br\com\autowashmanager\telas\TelaCadastroCliente$4.class
 br\com\autowashmanager\service\ValidadorProduto.class

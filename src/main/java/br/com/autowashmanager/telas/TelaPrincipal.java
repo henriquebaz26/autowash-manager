@@ -70,6 +70,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         MenuGestaoProdutos = new javax.swing.JMenuItem();
         MenuGestaoContas = new javax.swing.JMenuItem();
         MenuRelatorios = new javax.swing.JMenu();
+        MenuRelatóriosRelatóriosGestão = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -126,6 +127,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
         MenuRelatorios.setText("Relatórios");
         MenuRelatorios.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         MenuRelatorios.setEnabled(false);
+
+        MenuRelatóriosRelatóriosGestão.setText("Relatórios de Gestão");
+        MenuRelatóriosRelatóriosGestão.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        MenuRelatóriosRelatóriosGestão.addActionListener(this::MenuRelatóriosRelatóriosGestãoActionPerformed);
+        MenuRelatorios.add(MenuRelatóriosRelatóriosGestão);
+
         Menu.add(MenuRelatorios);
 
         setJMenuBar(Menu);
@@ -187,6 +194,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
         gestaoContas.setVisible(true);
     }//GEN-LAST:event_MenuGestaoContasActionPerformed
 
+    private void MenuRelatóriosRelatóriosGestãoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuRelatóriosRelatóriosGestãoActionPerformed
+        // Chamando a Tela de Relatórios de Gestão
+        
+        TelaRelatórios telaRelatorios = new TelaRelatórios();
+        telaRelatorios.setVisible(true);
+    }//GEN-LAST:event_MenuRelatóriosRelatóriosGestãoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -224,6 +238,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem MenuGestaoContas;
     private javax.swing.JMenuItem MenuGestaoProdutos;
     public javax.swing.JMenu MenuRelatorios;
+    private javax.swing.JMenuItem MenuRelatóriosRelatóriosGestão;
     private javax.swing.JMenuItem jMenuItem1;
     // End of variables declaration//GEN-END:variables
 }
