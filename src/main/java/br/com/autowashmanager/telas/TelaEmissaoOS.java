@@ -559,6 +559,36 @@ public class TelaEmissaoOS extends javax.swing.JFrame {
         }
     }
 
+    public void carregarOSPorId(int idOS) {
+
+        String sql = "SELECT * FROM service_order WHERE id = ?";
+
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setInt(1, idOS);
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+
+                txtOSId.setText(rs.getString("id"));
+                txtOSData.setText(rs.getString("service_date"));
+                txtOSHorarioEntrada.setText(rs.getString("entry_time"));
+                txtOSHorarioEntrega.setText(rs.getString("delivery_time"));
+                txtOSPreco.setText(rs.getString("price"));
+                cboOSStatus.setSelectedItem(rs.getString("status"));
+                txtOSIdVeiculo.setText(rs.getString("vehicle_id"));
+                txtOSIdFuncionario.setText(rs.getString("employee_id"));
+                txtOSDescricao.setText(rs.getString("notes"));
+            }
+
+            btnOSCreate.setEnabled(false);
+            btnOSUpdate.setEnabled(true);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

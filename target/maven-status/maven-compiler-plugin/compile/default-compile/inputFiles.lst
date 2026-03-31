@@ -1,6 +1,8 @@
 C:\Users\h24he\OneDrive\Desktop\projetos\autowash-manager\AutoWashManager\src\main\java\br\com\autowashmanager\dal\ModuloConexao.java
+C:\Users\h24he\OneDrive\Desktop\projetos\autowash-manager\AutoWashManager\src\main\java\br\com\autowashmanager\model\Clima.java
 C:\Users\h24he\OneDrive\Desktop\projetos\autowash-manager\AutoWashManager\src\main\java\br\com\autowashmanager\model\Endereco.java
 C:\Users\h24he\OneDrive\Desktop\projetos\autowash-manager\AutoWashManager\src\main\java\br\com\autowashmanager\service\BuscaCEP.java
+C:\Users\h24he\OneDrive\Desktop\projetos\autowash-manager\AutoWashManager\src\main\java\br\com\autowashmanager\service\ClimaService.java
 C:\Users\h24he\OneDrive\Desktop\projetos\autowash-manager\AutoWashManager\src\main\java\br\com\autowashmanager\service\ValidadorConta.java
 C:\Users\h24he\OneDrive\Desktop\projetos\autowash-manager\AutoWashManager\src\main\java\br\com\autowashmanager\service\ValidadorOS.java
 C:\Users\h24he\OneDrive\Desktop\projetos\autowash-manager\AutoWashManager\src\main\java\br\com\autowashmanager\service\ValidadorProduto.java

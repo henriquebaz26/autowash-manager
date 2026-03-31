@@ -9,6 +9,7 @@ br\com\autowashmanager\telas\TelaCadastroVeiculo$5.class
 br\com\autowashmanager\telas\TelaCadastroVeiculo$2.class
 br\com\autowashmanager\telas\TelaGestaoProdutos.class
 br\com\autowashmanager\telas\TelaCadastroVeiculo$3.class
+br\com\autowashmanager\telas\TelaPrincipal$3.class
 br\com\autowashmanager\telas\TelaEmissaoOS$8.class
 br\com\autowashmanager\telas\TelaGestaoProdutos$1.class
 br\com\autowashmanager\telas\TelaCadastroVeiculo.class
@@ -19,6 +20,7 @@ br\com\autowashmanager\telas\TelaCadastroVeiculo$6.class
 br\com\autowashmanager\telas\TelaEmissaoOS$7.class
 br\com\autowashmanager\telas\TelaEmissaoOS$4.class
 br\com\autowashmanager\telas\TelaCadastroVeiculo$4.class
+br\com\autowashmanager\service\ClimaService.class
 br\com\autowashmanager\telas\TelaEmissaoOS$3.class
 br\com\autowashmanager\telas\TelaGestaoContas.class
 br\com\autowashmanager\telas\TelaGestaoContas$4.class
@@ -27,8 +29,10 @@ br\com\autowashmanager\service\BuscaCEP.class
 br\com\autowashmanager\telas\TelaCadastroCliente$4.class
 br\com\autowashmanager\service\ValidadorProduto.class
 br\com\autowashmanager\model\Endereco.class
+br\com\autowashmanager\model\Clima.class
 br\com\autowashmanager\telas\TelaGestaoProdutos$3.class
 br\com\autowashmanager\service\ValidadorOS.class
 br\com\autowashmanager\telas\TelaGestaoContas$1.class
+br\com\autowashmanager\telas\TelaPrincipal$2.class
 br\com\autowashmanager\telas\TelaCadastroVeiculo$1.class
 br\com\autowashmanager\telas\TelaEmissaoOS$6.class

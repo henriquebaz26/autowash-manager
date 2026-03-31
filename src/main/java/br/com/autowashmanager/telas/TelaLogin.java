@@ -48,11 +48,15 @@ public class TelaLogin extends javax.swing.JFrame {
                     principal.MenuCadastroFuncionario.setEnabled(true);
                     principal.MenuGestao.setEnabled(true);
                     principal.MenuRelatorios.setEnabled(true);
+                    principal.lblNome.setText("Nome: " + rs.getString("name"));
+                    principal.lblTipo.setText("Tipo: Administrador");
                     this.dispose();
                     
                 } else {
                     TelaPrincipal principal = new TelaPrincipal();
                     principal.setVisible(true);
+                    principal.lblNome.setText("Nome: " + rs.getString("name"));
+                    principal.lblTipo.setText("Tipo: Administrador");
                     this.dispose();
                 }
                 conexao.close();
